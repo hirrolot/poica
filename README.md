@@ -13,8 +13,3 @@
 ```
 
 </details>
-
-Practical examples of sum types include [AST evaluation] and [error handling].
-
-[AST evaluation]: https://github.com/hirrolot/poica/wiki/AST-evaluation
-[error handling]: https://github.com/hirrolot/poica/wiki/Error-handling
