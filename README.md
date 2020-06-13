@@ -68,7 +68,7 @@ $10.990000 'Amnesia: The Dark Descent' has been ordered!
 
 </details>
 
-ADTs can be used practically everywhere, but just to get started take a look at [AST evaluation] and [error handling].
+Also take a look at [AST evaluation] and [error handling].
 
 [AST evaluation]: https://github.com/hirrolot/poica/wiki/AST-evaluation
 [error handling]: https://github.com/hirrolot/poica/wiki/Error-handling
