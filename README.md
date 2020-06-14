@@ -164,7 +164,7 @@ int main(void) {
 
 </details>
 
-Also take a look at [AST evaluation] and [error handling].
+Also take a look at [AST evaluation] and [error handling] using ADTs.
 
 [AST evaluation]: https://github.com/hirrolot/poica/wiki/AST-evaluation
 [error handling]: https://github.com/hirrolot/poica/wiki/Error-handling
