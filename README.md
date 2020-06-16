@@ -6,7 +6,7 @@
   <a href="https://github.com/hirrolot/poica/actions?query=workflow%3A%22C%2FC%2B%2B+CI%22">
   <img src="https://github.com/hirrolot/poica/workflows/C/C++%20CI/badge.svg" />
   </a>
-  <a href="https://github.com/teloxide/teloxide/releases/tag/v0.1.0">
+  <a href="https://github.com/hirrolot/poica/releases/tag/v0.1.0">
   <img src="https://img.shields.io/badge/version-0.1.0-orange.svg" />
   </a>
   <a href="https://github.com/hirrolot/poica/wiki/Specification">
