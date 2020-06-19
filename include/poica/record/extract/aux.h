@@ -23,37 +23,17 @@
  * SOFTWARE.
  */
 
-#include <math.h>
-#include <stdio.h>
+#ifndef POICA_RECORD_EXTRACT_AUX_H
+#define POICA_RECORD_EXTRACT_AUX_H
 
-#include <poica.h>
+#include <stdbool.h>
 
-// clang-format off
-RECORD(
-    Triangle,
-    FIELD(a OF double)
-    FIELD(b OF double)
-    FIELD(c OF double)
-);
-// clang-format on
+#include <boost/preprocessor.hpp>
 
-// clang-format off
-double compute_area(Triangle triangle) {
-    EXTRACT((a, b, c) FROM (&triangle OF Triangle));
+#define POICA_P_RECORD_EXTRACT_X(macro, fields, val)                           \
+    BOOST_PP_SEQ_FOR_EACH(macro, val, BOOST_PP_TUPLE_TO_SEQ(fields))           \
+                                                                               \
+    do {                                                                       \
+    } while (false)
 
-    const double p = (a + b + c) / 2;
-    const double area = sqrt(p * (p - a) * (p - b) * (p - c));
-
-    return area;
-}
-// clang-format on
-
-int main(void) {
-    Triangle triangle = {4, 13, 15};
-
-    /*
-     * Output:
-     * 24.000000
-     */
-    printf("%f\n", compute_area(triangle));
-}
+#endif // POICA_RECORD_EXTRACT_AUX_H

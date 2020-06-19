@@ -23,37 +23,25 @@
  * SOFTWARE.
  */
 
-#include <math.h>
-#include <stdio.h>
+#ifndef POICA_ENUM_VARIANT_H
+#define POICA_ENUM_VARIANT_H
 
-#include <poica.h>
+#include <poica/keywords.h>
+#include <poica/record/field.h>
 
-// clang-format off
-RECORD(
-    Triangle,
-    FIELD(a OF double)
-    FIELD(b OF double)
-    FIELD(c OF double)
-);
-// clang-format on
+#include <boost/preprocessor.hpp>
 
-// clang-format off
-double compute_area(Triangle triangle) {
-    EXTRACT((a, b, c) FROM (&triangle OF Triangle));
+#define VARIANT(...)                                                           \
+    BOOST_PP_OVERLOAD(POICA_P_VARIANT_, __VA_ARGS__)(__VA_ARGS__)
 
-    const double p = (a + b + c) / 2;
-    const double area = sqrt(p * (p - a) * (p - b) * (p - c));
+#define MANY ,
 
-    return area;
-}
-// clang-format on
+#define POICA_P_VARIANT_1(variant_name) ((POICA_VARIANT_EMPTY)(variant_name))
 
-int main(void) {
-    Triangle triangle = {4, 13, 15};
+#define POICA_P_VARIANT_2(variant_name, variant_type)                          \
+    ((POICA_VARIANT_SINGLE)(variant_name)(variant_type))
 
-    /*
-     * Output:
-     * 24.000000
-     */
-    printf("%f\n", compute_area(triangle));
-}
+#define POICA_P_VARIANT_3(variant_name, _many, fields)                         \
+    ((POICA_VARIANT_MANY)(variant_name)(fields))
+
+#endif // POICA_ENUM_VARIANT_H

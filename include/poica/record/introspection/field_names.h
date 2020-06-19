@@ -23,37 +23,25 @@
  * SOFTWARE.
  */
 
-#include <math.h>
-#include <stdio.h>
+#ifndef POICA_RECORD_INTROSPECTION_FIELD_NAMES_H
+#define POICA_RECORD_INTROSPECTION_FIELD_NAMES_H
 
-#include <poica.h>
+#include <poica/record/introspection/aux.h>
 
-// clang-format off
-RECORD(
-    Triangle,
-    FIELD(a OF double)
-    FIELD(b OF double)
-    FIELD(c OF double)
-);
-// clang-format on
+#include <boost/preprocessor.hpp>
 
-// clang-format off
-double compute_area(Triangle triangle) {
-    EXTRACT((a, b, c) FROM (&triangle OF Triangle));
+#define FIELD_NAME(field) BOOST_PP_SEQ_ELEM(0, field)
 
-    const double p = (a + b + c) / 2;
-    const double area = sqrt(p * (p - a) * (p - b) * (p - c));
+#define RECORD_FIELD_NAMES_SEQ(fields)                                         \
+    POICA_P_RECORD_FIELD_X_SEQ(POICA_P_RECORD_GEN_FIELD_NAME_SEQ, fields)
+#define POICA_P_RECORD_GEN_FIELD_NAME_SEQ(_r, _data, field) (FIELD_NAME(field))
 
-    return area;
-}
-// clang-format on
+#define RECORD_FIELD_NAMES_TUPLE(fields)                                       \
+    POICA_P_RECORD_FIELD_X_TUPLE(POICA_P_RECORD_GEN_FIELD_NAME_TUPLE,          \
+                                 POICA_P_RECORD_GEN_FIELD_NAME_TUPLE_LAST,     \
+                                 fields)
 
-int main(void) {
-    Triangle triangle = {4, 13, 15};
+#define POICA_P_RECORD_GEN_FIELD_NAME_TUPLE(_r, _data, field) FIELD_NAME(field),
+#define POICA_P_RECORD_GEN_FIELD_NAME_TUPLE_LAST(field)       FIELD_NAME(field)
 
-    /*
-     * Output:
-     * 24.000000
-     */
-    printf("%f\n", compute_area(triangle));
-}
+#endif // POICA_RECORD_INTROSPECTION_FIELD_NAMES_H

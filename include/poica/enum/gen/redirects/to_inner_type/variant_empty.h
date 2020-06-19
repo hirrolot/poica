@@ -23,37 +23,13 @@
  * SOFTWARE.
  */
 
-#include <math.h>
-#include <stdio.h>
+#ifndef ENUM_GEN_REDIRECTS_TO_INNER_TYPE_VARIANT_EMPTY_H
+#define ENUM_GEN_REDIRECTS_TO_INNER_TYPE_VARIANT_EMPTY_H
 
-#include <poica.h>
+#include <boost/preprocessor.hpp>
 
-// clang-format off
-RECORD(
-    Triangle,
-    FIELD(a OF double)
-    FIELD(b OF double)
-    FIELD(c OF double)
-);
-// clang-format on
+// Generate nothing because an empty variant has no actual type.
+#define POICA_P_ENUM_GEN_REDIRECT_VARIANT_TO_INNER_TYPE_VARIANT_EMPTY(         \
+    _data, _variant_name)
 
-// clang-format off
-double compute_area(Triangle triangle) {
-    EXTRACT((a, b, c) FROM (&triangle OF Triangle));
-
-    const double p = (a + b + c) / 2;
-    const double area = sqrt(p * (p - a) * (p - b) * (p - c));
-
-    return area;
-}
-// clang-format on
-
-int main(void) {
-    Triangle triangle = {4, 13, 15};
-
-    /*
-     * Output:
-     * 24.000000
-     */
-    printf("%f\n", compute_area(triangle));
-}
+#endif // ENUM_GEN_REDIRECTS_TO_INNER_TYPE_VARIANT_EMPTY_H

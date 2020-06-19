@@ -23,37 +23,17 @@
  * SOFTWARE.
  */
 
-#include <math.h>
-#include <stdio.h>
+#ifndef POICA_RECORD_INTROSPECTION_H
+#define POICA_RECORD_INTROSPECTION_H
 
-#include <poica.h>
+#include <poica/record/introspection/field_names.h>
+#include <poica/record/introspection/field_types.h>
 
-// clang-format off
-RECORD(
-    Triangle,
-    FIELD(a OF double)
-    FIELD(b OF double)
-    FIELD(c OF double)
-);
-// clang-format on
+#include <poica/record/introspection/fields_as_params.h>
 
-// clang-format off
-double compute_area(Triangle triangle) {
-    EXTRACT((a, b, c) FROM (&triangle OF Triangle));
+#include <boost/preprocessor.hpp>
 
-    const double p = (a + b + c) / 2;
-    const double area = sqrt(p * (p - a) * (p - b) * (p - c));
+#define RECORD_INTROSPECT(...)                      POICA_P_RECORD_INTROSPECT_AUX(__VA_ARGS__)
+#define POICA_P_RECORD_INTROSPECT_AUX(name, fields) fields
 
-    return area;
-}
-// clang-format on
-
-int main(void) {
-    Triangle triangle = {4, 13, 15};
-
-    /*
-     * Output:
-     * 24.000000
-     */
-    printf("%f\n", compute_area(triangle));
-}
+#endif // POICA_RECORD_INTROSPECTION_H

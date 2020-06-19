@@ -23,37 +23,24 @@
  * SOFTWARE.
  */
 
-#include <math.h>
-#include <stdio.h>
+#ifndef POICA_ENUM_GEN_VCONSTRS_H
+#define POICA_ENUM_GEN_VCONSTRS_H
 
-#include <poica.h>
+#include <poica/private/defer.h>
 
-// clang-format off
-RECORD(
-    Triangle,
-    FIELD(a OF double)
-    FIELD(b OF double)
-    FIELD(c OF double)
-);
-// clang-format on
+#include <poica/enum/introspection.h>
 
-// clang-format off
-double compute_area(Triangle triangle) {
-    EXTRACT((a, b, c) FROM (&triangle OF Triangle));
+#include <poica/enum/gen/vconstrs/variant_empty.h>
+#include <poica/enum/gen/vconstrs/variant_many.h>
+#include <poica/enum/gen/vconstrs/variant_single.h>
 
-    const double p = (a + b + c) / 2;
-    const double area = sqrt(p * (p - a) * (p - b) * (p - c));
+#include <boost/preprocessor.hpp>
 
-    return area;
-}
-// clang-format on
+#define POICA_P_ENUM_GEN_VCONSTRS(enum_name, variants)                         \
+    POICA_P_EXPAND(POICA_P_EXPAND(                                             \
+        BOOST_PP_SEQ_FOR_EACH(POICA_P_ENUM_GEN_VCONSTR, enum_name, variants)))
 
-int main(void) {
-    Triangle triangle = {4, 13, 15};
+#define POICA_P_ENUM_GEN_VCONSTR(_r, enum_name, variant)                       \
+    OVERLOAD_ON_VARIANT(POICA_P_ENUM_GEN_VCONSTR_, enum_name, variant)
 
-    /*
-     * Output:
-     * 24.000000
-     */
-    printf("%f\n", compute_area(triangle));
-}
+#endif // POICA_ENUM_GEN_VCONSTRS_H
