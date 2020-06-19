@@ -23,37 +23,12 @@
  * SOFTWARE.
  */
 
-#include <math.h>
-#include <stdio.h>
+#ifndef POICA_RECORD_FIELD_H
+#define POICA_RECORD_FIELD_H
 
-#include <poica.h>
+#include <poica/keywords.h>
 
-// clang-format off
-RECORD(
-    Triangle,
-    FIELD(a OF double)
-    FIELD(b OF double)
-    FIELD(c OF double)
-);
-// clang-format on
+#define FIELD(...)                                POICA_P_FIELD_AUX(__VA_ARGS__)
+#define POICA_P_FIELD_AUX(field_name, field_type) ((field_name)(field_type))
 
-// clang-format off
-double compute_area(Triangle triangle) {
-    EXTRACT((a, b, c) FROM (&triangle OF Triangle));
-
-    const double p = (a + b + c) / 2;
-    const double area = sqrt(p * (p - a) * (p - b) * (p - c));
-
-    return area;
-}
-// clang-format on
-
-int main(void) {
-    Triangle triangle = {4, 13, 15};
-
-    /*
-     * Output:
-     * 24.000000
-     */
-    printf("%f\n", compute_area(triangle));
-}
+#endif // POICA_RECORD_FIELD_H

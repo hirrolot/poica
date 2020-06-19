@@ -23,37 +23,29 @@
  * SOFTWARE.
  */
 
-#include <math.h>
-#include <stdio.h>
-
 #include <poica.h>
 
-// clang-format off
-RECORD(
-    Triangle,
-    FIELD(a OF double)
-    FIELD(b OF double)
-    FIELD(c OF double)
-);
-// clang-format on
+#include <stdio.h>
+
+#include <boost/preprocessor.hpp>
 
 // clang-format off
-double compute_area(Triangle triangle) {
-    EXTRACT((a, b, c) FROM (&triangle OF Triangle));
-
-    const double p = (a + b + c) / 2;
-    const double area = sqrt(p * (p - a) * (p - b) * (p - c));
-
-    return area;
-}
+#define MY_ENUM                                                             \
+    Something,                                                             \
+    VARIANT(MkA)                                                           \
+    VARIANT(MkB OF int)                                                    \
+    VARIANT(MkC OF MANY FIELD(c1 OF double) FIELD(c2 OF char))             \
 // clang-format on
+
+ENUM(MY_ENUM);
+#define Something_INTROSPECT ENUM_INTROSPECT(MY_ENUM)
 
 int main(void) {
-    Triangle triangle = {4, 13, 15};
-
     /*
      * Output:
-     * 24.000000
+     * ((POICA_VARIANT_EMPTY)(MkA))
+     * ((POICA_VARIANT_SINGLE)(MkB)(int))
+     * ((POICA_VARIANT_MANY)(MkC)( ((c1)(double)) ((c2)(char)) ))
      */
-    printf("%f\n", compute_area(triangle));
+    puts(BOOST_PP_STRINGIZE(Something_INTROSPECT));
 }

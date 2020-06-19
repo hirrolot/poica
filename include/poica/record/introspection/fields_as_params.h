@@ -23,37 +23,23 @@
  * SOFTWARE.
  */
 
-#include <math.h>
-#include <stdio.h>
+#ifndef POICA_RECORD_INTROSPECTION_FIELDS_AS_PARAMS_H
+#define POICA_RECORD_INTROSPECTION_FIELDS_AS_PARAMS_H
 
-#include <poica.h>
+#include <boost/preprocessor.hpp>
 
-// clang-format off
-RECORD(
-    Triangle,
-    FIELD(a OF double)
-    FIELD(b OF double)
-    FIELD(c OF double)
-);
-// clang-format on
+#define RECORD_FIELDS_AS_PARAMS(fields)                                        \
+    BOOST_PP_SEQ_FOR_EACH(POICA_P_RECORD_GEN_FIELD_AS_PARAM,                   \
+                          _data,                                               \
+                          BOOST_PP_SEQ_POP_BACK(fields))                       \
+                                                                               \
+    POICA_P_RECORD_GEN_FIELD_AS_PARAM_LAST(                                    \
+        BOOST_PP_SEQ_ELEM(BOOST_PP_DEC(BOOST_PP_SEQ_SIZE(fields)), fields))
 
-// clang-format off
-double compute_area(Triangle triangle) {
-    EXTRACT((a, b, c) FROM (&triangle OF Triangle));
+#define POICA_P_RECORD_GEN_FIELD_AS_PARAM(_r, _data, field)                    \
+    FIELD_TYPE(field) FIELD_NAME(field),
 
-    const double p = (a + b + c) / 2;
-    const double area = sqrt(p * (p - a) * (p - b) * (p - c));
+#define POICA_P_RECORD_GEN_FIELD_AS_PARAM_LAST(field)                          \
+    FIELD_TYPE(field) FIELD_NAME(field)
 
-    return area;
-}
-// clang-format on
-
-int main(void) {
-    Triangle triangle = {4, 13, 15};
-
-    /*
-     * Output:
-     * 24.000000
-     */
-    printf("%f\n", compute_area(triangle));
-}
+#endif // POICA_RECORD_INTROSPECTION_FIELDS_AS_PARAMS_H

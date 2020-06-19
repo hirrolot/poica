@@ -23,37 +23,17 @@
  * SOFTWARE.
  */
 
-#include <math.h>
-#include <stdio.h>
+#ifndef POICA_ENUM_INTROSPECTION_H
+#define POICA_ENUM_INTROSPECTION_H
 
-#include <poica.h>
+#include <poica/enum/introspection/overload_on_variant.h>
 
-// clang-format off
-RECORD(
-    Triangle,
-    FIELD(a OF double)
-    FIELD(b OF double)
-    FIELD(c OF double)
-);
-// clang-format on
+#include <boost/preprocessor.hpp>
 
-// clang-format off
-double compute_area(Triangle triangle) {
-    EXTRACT((a, b, c) FROM (&triangle OF Triangle));
+#define ENUM_INTROSPECT(...)                        POICA_P_ENUM_INTROSPECT_AUX(__VA_ARGS__)
+#define POICA_P_ENUM_INTROSPECT_AUX(name, variants) variants
 
-    const double p = (a + b + c) / 2;
-    const double area = sqrt(p * (p - a) * (p - b) * (p - c));
+#define VARIANT_KIND(variant) BOOST_PP_SEQ_ELEM(0, variant)
+#define VARIANT_NAME(variant) BOOST_PP_SEQ_ELEM(1, variant)
 
-    return area;
-}
-// clang-format on
-
-int main(void) {
-    Triangle triangle = {4, 13, 15};
-
-    /*
-     * Output:
-     * 24.000000
-     */
-    printf("%f\n", compute_area(triangle));
-}
+#endif // POICA_ENUM_INTROSPECTION_H

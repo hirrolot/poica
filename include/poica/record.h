@@ -23,37 +23,31 @@
  * SOFTWARE.
  */
 
-#include <math.h>
-#include <stdio.h>
+#ifndef POICA_RECORD_H
+#define POICA_RECORD_H
 
-#include <poica.h>
+#include <poica/private/aux.h>
 
-// clang-format off
-RECORD(
-    Triangle,
-    FIELD(a OF double)
-    FIELD(b OF double)
-    FIELD(c OF double)
-);
-// clang-format on
+#include <poica/keywords.h>
+#include <poica/record/field.h>
 
-// clang-format off
-double compute_area(Triangle triangle) {
-    EXTRACT((a, b, c) FROM (&triangle OF Triangle));
+#include <poica/record/extract.h>
+#include <poica/record/field.h>
+#include <poica/record/gen/fields.h>
+#include <poica/record/gen/redirects.h>
+#include <poica/record/introspection.h>
 
-    const double p = (a + b + c) / 2;
-    const double area = sqrt(p * (p - a) * (p - b) * (p - c));
+#include <boost/preprocessor.hpp>
 
-    return area;
-}
-// clang-format on
+#define RECORD(...) POICA_P_RECORD_AUX(__VA_ARGS__)
 
-int main(void) {
-    Triangle triangle = {4, 13, 15};
+#define POICA_P_RECORD_AUX(name, fields)                                       \
+    typedef struct name {                                                      \
+        POICA_P_RECORD_GEN_FIELDS(fields)                                      \
+    } name;                                                                    \
+                                                                               \
+    POICA_P_RECORD_GEN_REDIRECTS_TO_FIELD_TYPE(name, fields)                   \
+                                                                               \
+    POICA_P_USELESS_TYPEDEF(name)
 
-    /*
-     * Output:
-     * 24.000000
-     */
-    printf("%f\n", compute_area(triangle));
-}
+#endif // POICA_RECORD_H

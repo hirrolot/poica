@@ -23,37 +23,18 @@
  * SOFTWARE.
  */
 
-#include <math.h>
-#include <stdio.h>
+#ifndef POICA_ENUM_GEN_VCONSTRS_VARIANT_EMPTY_H
+#define POICA_ENUM_GEN_VCONSTRS_VARIANT_EMPTY_H
 
-#include <poica.h>
+#include <poica/enum/gen/tags.h>
 
-// clang-format off
-RECORD(
-    Triangle,
-    FIELD(a OF double)
-    FIELD(b OF double)
-    FIELD(c OF double)
-);
-// clang-format on
+#include <boost/preprocessor.hpp>
 
-// clang-format off
-double compute_area(Triangle triangle) {
-    EXTRACT((a, b, c) FROM (&triangle OF Triangle));
+#define POICA_P_ENUM_GEN_VCONSTR_VARIANT_EMPTY(enum_name, variant_name)        \
+    inline static enum_name variant_name(void) {                               \
+        return (enum_name){                                                    \
+            .tag = POICA_P_ENUM_VARIANT_NAME_AS_TAG(variant_name),             \
+        };                                                                     \
+    }
 
-    const double p = (a + b + c) / 2;
-    const double area = sqrt(p * (p - a) * (p - b) * (p - c));
-
-    return area;
-}
-// clang-format on
-
-int main(void) {
-    Triangle triangle = {4, 13, 15};
-
-    /*
-     * Output:
-     * 24.000000
-     */
-    printf("%f\n", compute_area(triangle));
-}
+#endif // POICA_ENUM_GEN_VCONSTRS_VARIANT_EMPTY_H

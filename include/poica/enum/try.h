@@ -23,37 +23,19 @@
  * SOFTWARE.
  */
 
-#include <math.h>
-#include <stdio.h>
+#ifndef POICA_ENUM_TRY_H
+#define POICA_ENUM_TRY_H
 
-#include <poica.h>
+#include <poica/enum/pattern_matching.h>
 
-// clang-format off
-RECORD(
-    Triangle,
-    FIELD(a OF double)
-    FIELD(b OF double)
-    FIELD(c OF double)
-);
-// clang-format on
+#include <boost/preprocessor.hpp>
 
-// clang-format off
-double compute_area(Triangle triangle) {
-    EXTRACT((a, b, c) FROM (&triangle OF Triangle));
+#define TRY(enum_ptr, case_expr, failure_expr)                                 \
+    MATCH(enum_ptr) {                                                          \
+        case_expr {                                                            \
+            return failure_expr;                                               \
+        }                                                                      \
+        DEFAULT {}                                                             \
+    }
 
-    const double p = (a + b + c) / 2;
-    const double area = sqrt(p * (p - a) * (p - b) * (p - c));
-
-    return area;
-}
-// clang-format on
-
-int main(void) {
-    Triangle triangle = {4, 13, 15};
-
-    /*
-     * Output:
-     * 24.000000
-     */
-    printf("%f\n", compute_area(triangle));
-}
+#endif // POICA_ENUM_TRY_H

@@ -23,37 +23,27 @@
  * SOFTWARE.
  */
 
-#include <math.h>
-#include <stdio.h>
+#ifndef POICA_ENUM_GEN_FIELDS_H
+#define POICA_ENUM_GEN_FIELDS_H
 
-#include <poica.h>
+#include <poica/enum/gen/redirects/to_inner_type.h>
+#include <poica/enum/variant.h>
 
-// clang-format off
-RECORD(
-    Triangle,
-    FIELD(a OF double)
-    FIELD(b OF double)
-    FIELD(c OF double)
-);
-// clang-format on
+#include <boost/preprocessor.hpp>
 
-// clang-format off
-double compute_area(Triangle triangle) {
-    EXTRACT((a, b, c) FROM (&triangle OF Triangle));
+#define POICA_P_ENUM_GEN_FIELDS(variants)                                      \
+    BOOST_PP_SEQ_FOR_EACH(POICA_P_ENUM_GEN_FIELD, _data, variants)
 
-    const double p = (a + b + c) / 2;
-    const double area = sqrt(p * (p - a) * (p - b) * (p - c));
+#define POICA_P_ENUM_GEN_FIELD(_r, _data, variant)                             \
+    OVERLOAD_ON_VARIANT(POICA_P_ENUM_GEN_FIELD_, _data, variant)
 
-    return area;
-}
-// clang-format on
+#define POICA_P_ENUM_GEN_FIELD_VARIANT_EMPTY(_data, variant_name)
 
-int main(void) {
-    Triangle triangle = {4, 13, 15};
+#define POICA_P_ENUM_GEN_FIELD_VARIANT_SINGLE(                                 \
+    _data, variant_name, variant_type)                                         \
+    variant_type variant_name;
 
-    /*
-     * Output:
-     * 24.000000
-     */
-    printf("%f\n", compute_area(triangle));
-}
+#define POICA_P_ENUM_GEN_FIELD_VARIANT_MANY(_data, variant_name, _fields)      \
+    POICA_P_ENUM_REDIRECT_VARIANT_TO_INNER_TYPE(variant_name) variant_name;
+
+#endif // POICA_ENUM_GEN_FIELDS_H

@@ -23,37 +23,26 @@
  * SOFTWARE.
  */
 
-#include <math.h>
-#include <stdio.h>
+#ifndef POICA_RECORD_GEN_REDIRECTS_TO_FIELD_TYPE_H
+#define POICA_RECORD_GEN_REDIRECTS_TO_FIELD_TYPE_H
 
-#include <poica.h>
+#include <poica/private/aux.h>
 
-// clang-format off
-RECORD(
-    Triangle,
-    FIELD(a OF double)
-    FIELD(b OF double)
-    FIELD(c OF double)
-);
-// clang-format on
+#include <poica/record/introspection.h>
 
-// clang-format off
-double compute_area(Triangle triangle) {
-    EXTRACT((a, b, c) FROM (&triangle OF Triangle));
+#include <boost/preprocessor.hpp>
 
-    const double p = (a + b + c) / 2;
-    const double area = sqrt(p * (p - a) * (p - b) * (p - c));
+#define POICA_P_RECORD_GEN_REDIRECTS_TO_FIELD_TYPE(record_name, fields)        \
+    BOOST_PP_SEQ_FOR_EACH(                                                     \
+        POICA_P_RECORD_GEN_REDIRECT_TO_FIELD_TYPE, record_name, fields)
 
-    return area;
-}
-// clang-format on
+#define POICA_P_RECORD_GEN_REDIRECT_TO_FIELD_TYPE(_r, record_name, field)      \
+    typedef FIELD_TYPE(field)                                                  \
+        POICA_P_RECORD_REDIRECT_TO_FIELD_TYPE(record_name, FIELD_NAME(field));
 
-int main(void) {
-    Triangle triangle = {4, 13, 15};
+#define POICA_P_RECORD_REDIRECT_TO_FIELD_TYPE(record_name, field_name)         \
+    POICA_P_PREFIX(BOOST_PP_CAT(                                               \
+        record_name,                                                           \
+        BOOST_PP_CAT(_, BOOST_PP_CAT(field_name, _RedirectToFieldType))))
 
-    /*
-     * Output:
-     * 24.000000
-     */
-    printf("%f\n", compute_area(triangle));
-}
+#endif // POICA_RECORD_GEN_REDIRECTS_TO_FIELD_TYPE_H
