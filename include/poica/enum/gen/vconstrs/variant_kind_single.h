@@ -1,3 +1,4 @@
+
 /*
  * MIT License
  *
@@ -23,31 +24,20 @@
  * SOFTWARE.
  */
 
-#ifndef POICA_ENUM_GEN_VCONSTRS_VARIANT_MANY_H
-#define POICA_ENUM_GEN_VCONSTRS_VARIANT_MANY_H
-
-#include <poica/private/defer.h>
-
-#include <poica/record/introspection.h>
+#ifndef POICA_ENUM_GEN_VCONSTRS_VARIANT_KIND_SINGLE_H
+#define POICA_ENUM_GEN_VCONSTRS_VARIANT_KIND_SINGLE_H
 
 #include <poica/enum/gen/tags.h>
 
 #include <boost/preprocessor.hpp>
 
-#define POICA_P_ENUM_GEN_VCONSTR_VARIANT_MANY(enum_name, variant_name, fields) \
-    inline static enum_name variant_name(                                      \
-        POICA_P_DEFER(POICA_RECORD_FIELDS_AS_PARAMS)(fields)) {                \
+#define POICA_P_ENUM_GEN_VCONSTR_VARIANT_KIND_SINGLE(                          \
+    enum_name, variant_name, variant_type)                                     \
+    inline static enum_name variant_name(variant_type arg) {                   \
         return (enum_name){                                                    \
             .tag = POICA_P_ENUM_VARIANT_NAME_AS_TAG(variant_name),             \
-            .data.variant_name = {POICA_P_DEFER(                               \
-                POICA_P_ENUM_VCONSTR_VARIANT_MANY_INIT)(fields)},              \
+            .data.variant_name = arg,                                          \
         };                                                                     \
     }
 
-#define POICA_P_ENUM_VCONSTR_VARIANT_MANY_INIT(fields)                         \
-    POICA_P_ENUM_GEN_VCONSTR_VARIANT_MANY_EXPAND_ARGS                          \
-    POICA_RECORD_FIELD_NAMES_TUPLE(fields)
-
-#define POICA_P_ENUM_GEN_VCONSTR_VARIANT_MANY_EXPAND_ARGS(...) __VA_ARGS__
-
-#endif // POICA_ENUM_GEN_VCONSTRS_VARIANT_MANY_H
+#endif // POICA_ENUM_GEN_VCONSTRS_VARIANT_KIND_SINGLE_H
