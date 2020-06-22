@@ -1,4 +1,3 @@
-
 /*
  * MIT License
  *
@@ -24,20 +23,18 @@
  * SOFTWARE.
  */
 
-#ifndef POICA_ENUM_GEN_VCONSTRS_VARIANT_SINGLE_H
-#define POICA_ENUM_GEN_VCONSTRS_VARIANT_SINGLE_H
+#ifndef POICA_ENUM_GEN_VCONSTRS_VARIANT_KIND_EMPTY_H
+#define POICA_ENUM_GEN_VCONSTRS_VARIANT_KIND_EMPTY_H
 
 #include <poica/enum/gen/tags.h>
 
 #include <boost/preprocessor.hpp>
 
-#define POICA_P_ENUM_GEN_VCONSTR_VARIANT_SINGLE(                               \
-    enum_name, variant_name, variant_type)                                     \
-    inline static enum_name variant_name(variant_type arg) {                   \
+#define POICA_P_ENUM_GEN_VCONSTR_VARIANT_KIND_EMPTY(enum_name, variant_name)   \
+    inline static enum_name variant_name(void) {                               \
         return (enum_name){                                                    \
             .tag = POICA_P_ENUM_VARIANT_NAME_AS_TAG(variant_name),             \
-            .data.variant_name = arg,                                          \
         };                                                                     \
     }
 
-#endif // POICA_ENUM_GEN_VCONSTRS_VARIANT_SINGLE_H
+#endif // POICA_ENUM_GEN_VCONSTRS_VARIANT_KIND_EMPTY_H
