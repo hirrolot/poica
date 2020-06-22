@@ -23,10 +23,10 @@
  * SOFTWARE.
  */
 
-#ifndef POICA_ENUM_GEN_REDIRECTS_H
-#define POICA_ENUM_GEN_REDIRECTS_H
+#ifndef POICA_CHOICE_GEN_REDIRECTS_H
+#define POICA_CHOICE_GEN_REDIRECTS_H
 
-#include <poica/enum/gen/redirects/to_inner_type.h>
-#include <poica/enum/gen/redirects/to_outer_enum_type.h>
+#include <poica/choice/gen/redirects/to_inner_type.h>
+#include <poica/choice/gen/redirects/to_outer_choice_type.h>
 
-#endif // POICA_ENUM_GEN_REDIRECTS_H
+#endif // POICA_CHOICE_GEN_REDIRECTS_H

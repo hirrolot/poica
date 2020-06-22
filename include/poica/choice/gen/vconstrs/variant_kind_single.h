@@ -1,3 +1,4 @@
+
 /*
  * MIT License
  *
@@ -23,14 +24,20 @@
  * SOFTWARE.
  */
 
-#ifndef ENUM_GEN_REDIRECTS_TO_INNER_TYPE_VARIANT_KIND_SINGLE_H
-#define ENUM_GEN_REDIRECTS_TO_INNER_TYPE_VARIANT_KIND_SINGLE_H
+#ifndef POICA_CHOICE_GEN_VCONSTRS_VARIANT_KIND_SINGLE_H
+#define POICA_CHOICE_GEN_VCONSTRS_VARIANT_KIND_SINGLE_H
+
+#include <poica/choice/gen/tags.h>
 
 #include <boost/preprocessor.hpp>
 
-#define POICA_P_ENUM_GEN_REDIRECT_VARIANT_TO_INNER_TYPE_VARIANT_KIND_SINGLE(   \
-    _data, variant_name, variant_type)                                         \
-    typedef variant_type POICA_P_ENUM_REDIRECT_VARIANT_TO_INNER_TYPE(          \
-        variant_name);
+#define POICA_P_CHOICE_GEN_VCONSTR_VARIANT_KIND_SINGLE(                        \
+    choice_name, variant_name, variant_type)                                   \
+    inline static choice_name variant_name(variant_type arg) {                 \
+        return (choice_name){                                                  \
+            .tag = POICA_P_CHOICE_VARIANT_NAME_AS_TAG(variant_name),           \
+            .data.variant_name = arg,                                          \
+        };                                                                     \
+    }
 
-#endif // ENUM_GEN_REDIRECTS_TO_INNER_TYPE_VARIANT_KIND_SINGLE_H
+#endif // POICA_CHOICE_GEN_VCONSTRS_VARIANT_KIND_SINGLE_H

@@ -23,27 +23,20 @@
  * SOFTWARE.
  */
 
-#ifndef POICA_ENUM_GEN_FIELDS_H
-#define POICA_ENUM_GEN_FIELDS_H
+#ifndef POICA_CHOICE_INTROSPECTION_H
+#define POICA_CHOICE_INTROSPECTION_H
 
-#include <poica/enum/gen/redirects/to_inner_type.h>
-#include <poica/enum/variant.h>
+#include <poica/choice/introspection/overload_on_variant.h>
 
 #include <boost/preprocessor.hpp>
 
-#define POICA_P_ENUM_GEN_FIELDS(variants)                                      \
-    BOOST_PP_SEQ_FOR_EACH(POICA_P_ENUM_GEN_FIELD, _data, variants)
+// This macro is variadic because, due to type introspection, it must work
+// correctly if actual sum type data is transferred through a macro:
+// POICA_CHOICE_INTROSPECT(MY_CHOICE);
+#define POICA_CHOICE_INTROSPECT(...)                  POICA_P_CHOICE_INTROSPECT_AUX(__VA_ARGS__)
+#define POICA_P_CHOICE_INTROSPECT_AUX(name, variants) variants
 
-#define POICA_P_ENUM_GEN_FIELD(_r, _data, variant)                             \
-    POICA_OVERLOAD_ON_VARIANT(POICA_P_ENUM_GEN_FIELD_, _data, variant)
+#define POICA_VARIANT_KIND(variant) BOOST_PP_SEQ_ELEM(0, variant)
+#define POICA_VARIANT_NAME(variant) BOOST_PP_SEQ_ELEM(1, variant)
 
-#define POICA_P_ENUM_GEN_FIELD_VARIANT_KIND_EMPTY(_data, variant_name)
-
-#define POICA_P_ENUM_GEN_FIELD_VARIANT_KIND_SINGLE(                            \
-    _data, variant_name, variant_type)                                         \
-    variant_type variant_name;
-
-#define POICA_P_ENUM_GEN_FIELD_VARIANT_KIND_MANY(_data, variant_name, _fields) \
-    POICA_P_ENUM_REDIRECT_VARIANT_TO_INNER_TYPE(variant_name) variant_name;
-
-#endif // POICA_ENUM_GEN_FIELDS_H
+#endif // POICA_CHOICE_INTROSPECTION_H

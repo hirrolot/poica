@@ -23,13 +23,29 @@
  * SOFTWARE.
  */
 
-#ifndef ENUM_GEN_REDIRECTS_TO_INNER_TYPE_VARIANT_KIND_EMPTY_H
-#define ENUM_GEN_REDIRECTS_TO_INNER_TYPE_VARIANT_KIND_EMPTY_H
+#ifndef POICA_CHOICE_GEN_REDIRECTS_TO_OUTER_CHOICE_TYPE_H
+#define POICA_CHOICE_GEN_REDIRECTS_TO_OUTER_CHOICE_TYPE_H
+
+#include <poica/private/aux.h>
+
+#include <poica/choice/introspection.h>
+#include <poica/choice/variant.h>
 
 #include <boost/preprocessor.hpp>
 
-// Generate nothing because an empty variant has no actual type.
-#define POICA_P_ENUM_GEN_REDIRECT_VARIANT_TO_INNER_TYPE_VARIANT_KIND_EMPTY(    \
-    _data, _variant_name)
+#define POICA_P_CHOICE_GEN_REDIRECTS_VARIANT_TO_OUTER_CHOICE_TYPE(choice_name, \
+                                                                  variants)    \
+    BOOST_PP_SEQ_FOR_EACH(                                                     \
+        POICA_P_CHOICE_GEN_REDIRECT_VARIANT_TO_OUTER_CHOICE_TYPE,              \
+        choice_name,                                                           \
+        variants)
 
-#endif // ENUM_GEN_REDIRECTS_TO_INNER_TYPE_VARIANT_KIND_EMPTY_H
+#define POICA_P_CHOICE_GEN_REDIRECT_VARIANT_TO_OUTER_CHOICE_TYPE(              \
+    _r, choice_name, variant)                                                  \
+    typedef choice_name POICA_P_CHOICE_REDIRECT_VARIANT_TO_OUTER_CHOICE_TYPE(  \
+        POICA_VARIANT_NAME(variant));
+
+#define POICA_P_CHOICE_REDIRECT_VARIANT_TO_OUTER_CHOICE_TYPE(variant_name)     \
+    POICA_P_PREFIX(BOOST_PP_CAT(variant_name, _RedirectToOuterSumType))
+
+#endif // POICA_CHOICE_GEN_REDIRECTS_TO_OUTER_CHOICE_TYPE_H
