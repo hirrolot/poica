@@ -23,13 +23,19 @@
  * SOFTWARE.
  */
 
-#ifndef ENUM_GEN_REDIRECTS_TO_INNER_TYPE_VARIANT_KIND_EMPTY_H
-#define ENUM_GEN_REDIRECTS_TO_INNER_TYPE_VARIANT_KIND_EMPTY_H
+#ifndef POICA_CHOICE_GEN_VCONSTRS_VARIANT_KIND_EMPTY_H
+#define POICA_CHOICE_GEN_VCONSTRS_VARIANT_KIND_EMPTY_H
+
+#include <poica/choice/gen/tags.h>
 
 #include <boost/preprocessor.hpp>
 
-// Generate nothing because an empty variant has no actual type.
-#define POICA_P_ENUM_GEN_REDIRECT_VARIANT_TO_INNER_TYPE_VARIANT_KIND_EMPTY(    \
-    _data, _variant_name)
+#define POICA_P_CHOICE_GEN_VCONSTR_VARIANT_KIND_EMPTY(choice_name,             \
+                                                      variant_name)            \
+    inline static choice_name variant_name(void) {                             \
+        return (choice_name){                                                  \
+            .tag = POICA_P_CHOICE_VARIANT_NAME_AS_TAG(variant_name),           \
+        };                                                                     \
+    }
 
-#endif // ENUM_GEN_REDIRECTS_TO_INNER_TYPE_VARIANT_KIND_EMPTY_H
+#endif // POICA_CHOICE_GEN_VCONSTRS_VARIANT_KIND_EMPTY_H

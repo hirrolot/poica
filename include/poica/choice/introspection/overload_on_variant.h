@@ -23,10 +23,25 @@
  * SOFTWARE.
  */
 
-#ifndef POICA_ENUM_GEN_REDIRECTS_H
-#define POICA_ENUM_GEN_REDIRECTS_H
+#ifndef POICA_CHOICE_INTROSPECTION_OVERLOAD_ON_VARIANT_H
+#define POICA_CHOICE_INTROSPECTION_OVERLOAD_ON_VARIANT_H
 
-#include <poica/enum/gen/redirects/to_inner_type.h>
-#include <poica/enum/gen/redirects/to_outer_enum_type.h>
+#include <poica/choice/introspection.h>
 
-#endif // POICA_ENUM_GEN_REDIRECTS_H
+#include <boost/preprocessor.hpp>
+
+#define POICA_OVERLOAD_ON_VARIANT(macro, data, variant)                        \
+    POICA_P_CHOICE_OVERLOAD_ON_VARIANT_AUX(                                    \
+        BOOST_PP_CAT(macro,                                                    \
+                     BOOST_PP_CAT(POICA_P_CHOICE_RENAME_,                      \
+                                  POICA_VARIANT_KIND(variant))),               \
+        data,                                                                  \
+        BOOST_PP_SEQ_ENUM(BOOST_PP_SEQ_POP_FRONT(variant)))
+
+#define POICA_P_CHOICE_OVERLOAD_ON_VARIANT_AUX(macro, ...) macro(__VA_ARGS__)
+
+#define POICA_P_CHOICE_RENAME_POICA_VARIANT_KIND_EMPTY  VARIANT_KIND_EMPTY
+#define POICA_P_CHOICE_RENAME_POICA_VARIANT_KIND_SINGLE VARIANT_KIND_SINGLE
+#define POICA_P_CHOICE_RENAME_POICA_VARIANT_KIND_MANY   VARIANT_KIND_MANY
+
+#endif // POICA_CHOICE_INTROSPECTION_OVERLOAD_ON_VARIANT_H

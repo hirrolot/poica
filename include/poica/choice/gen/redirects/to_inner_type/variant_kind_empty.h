@@ -23,29 +23,13 @@
  * SOFTWARE.
  */
 
-#ifndef POICA_ENUM_GEN_REDIRECTS_TO_OUTER_ENUM_TYPE_H
-#define POICA_ENUM_GEN_REDIRECTS_TO_OUTER_ENUM_TYPE_H
-
-#include <poica/private/aux.h>
-
-#include <poica/enum/introspection.h>
-#include <poica/enum/variant.h>
+#ifndef CHOICE_GEN_REDIRECTS_TO_INNER_TYPE_VARIANT_KIND_EMPTY_H
+#define CHOICE_GEN_REDIRECTS_TO_INNER_TYPE_VARIANT_KIND_EMPTY_H
 
 #include <boost/preprocessor.hpp>
 
-#define POICA_P_ENUM_GEN_REDIRECTS_VARIANT_TO_OUTER_ENUM_TYPE(enum_name,       \
-                                                              variants)        \
-    BOOST_PP_SEQ_FOR_EACH(                                                     \
-        POICA_P_ENUM_GEN_REDIRECT_VARIANT_TO_OUTER_ENUM_TYPE,                  \
-        enum_name,                                                             \
-        variants)
+// Generate nothing because an empty variant has no actual type.
+#define POICA_P_CHOICE_GEN_REDIRECT_VARIANT_TO_INNER_TYPE_VARIANT_KIND_EMPTY(  \
+    _data, _variant_name)
 
-#define POICA_P_ENUM_GEN_REDIRECT_VARIANT_TO_OUTER_ENUM_TYPE(                  \
-    _r, enum_name, variant)                                                    \
-    typedef enum_name POICA_P_ENUM_REDIRECT_VARIANT_TO_OUTER_ENUM_TYPE(        \
-        POICA_VARIANT_NAME(variant));
-
-#define POICA_P_ENUM_REDIRECT_VARIANT_TO_OUTER_ENUM_TYPE(variant_name)         \
-    POICA_P_PREFIX(BOOST_PP_CAT(variant_name, _RedirectToOuterSumType))
-
-#endif // POICA_ENUM_GEN_REDIRECTS_TO_OUTER_ENUM_TYPE_H
+#endif // CHOICE_GEN_REDIRECTS_TO_INNER_TYPE_VARIANT_KIND_EMPTY_H

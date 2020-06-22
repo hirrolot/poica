@@ -23,27 +23,14 @@
  * SOFTWARE.
  */
 
-#ifndef POICA_ENUM_GEN_FIELDS_H
-#define POICA_ENUM_GEN_FIELDS_H
-
-#include <poica/enum/gen/redirects/to_inner_type.h>
-#include <poica/enum/variant.h>
+#ifndef CHOICE_GEN_REDIRECTS_TO_INNER_TYPE_VARIANT_KIND_SINGLE_H
+#define CHOICE_GEN_REDIRECTS_TO_INNER_TYPE_VARIANT_KIND_SINGLE_H
 
 #include <boost/preprocessor.hpp>
 
-#define POICA_P_ENUM_GEN_FIELDS(variants)                                      \
-    BOOST_PP_SEQ_FOR_EACH(POICA_P_ENUM_GEN_FIELD, _data, variants)
-
-#define POICA_P_ENUM_GEN_FIELD(_r, _data, variant)                             \
-    POICA_OVERLOAD_ON_VARIANT(POICA_P_ENUM_GEN_FIELD_, _data, variant)
-
-#define POICA_P_ENUM_GEN_FIELD_VARIANT_KIND_EMPTY(_data, variant_name)
-
-#define POICA_P_ENUM_GEN_FIELD_VARIANT_KIND_SINGLE(                            \
+#define POICA_P_CHOICE_GEN_REDIRECT_VARIANT_TO_INNER_TYPE_VARIANT_KIND_SINGLE( \
     _data, variant_name, variant_type)                                         \
-    variant_type variant_name;
+    typedef variant_type POICA_P_CHOICE_REDIRECT_VARIANT_TO_INNER_TYPE(        \
+        variant_name);
 
-#define POICA_P_ENUM_GEN_FIELD_VARIANT_KIND_MANY(_data, variant_name, _fields) \
-    POICA_P_ENUM_REDIRECT_VARIANT_TO_INNER_TYPE(variant_name) variant_name;
-
-#endif // POICA_ENUM_GEN_FIELDS_H
+#endif // CHOICE_GEN_REDIRECTS_TO_INNER_TYPE_VARIANT_KIND_SINGLE_H

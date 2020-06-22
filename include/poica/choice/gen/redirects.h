@@ -23,29 +23,10 @@
  * SOFTWARE.
  */
 
-#include <poica.h>
+#ifndef POICA_CHOICE_GEN_REDIRECTS_H
+#define POICA_CHOICE_GEN_REDIRECTS_H
 
-#include <stdio.h>
+#include <poica/choice/gen/redirects/to_inner_type.h>
+#include <poica/choice/gen/redirects/to_outer_choice_type.h>
 
-#include <boost/preprocessor.hpp>
-
-// clang-format off
-#define MY_ENUM                                                             \
-    Something,                                                              \
-    variant(MkA)                                                            \
-    variant(MkB, int)                                                       \
-    variantMany(MkC, field(c1, double) field(c2, char))
-// clang-format on
-
-enum(MY_ENUM);
-#define Something_INTROSPECT POICA_ENUM_INTROSPECT(MY_ENUM)
-
-int main(void) {
-    /*
-     * Output:
-     * ((POICA_VARIANT_KIND_EMPTY)(MkA))
-     * ((POICA_VARIANT_KIND_SINGLE)(MkB)(int))
-     * ((POICA_VARIANT_KIND_MANY)(MkC)( ((c1)(double)) ((c2)(char)) ))
-     */
-    puts(BOOST_PP_STRINGIZE(Something_INTROSPECT));
-}
+#endif // POICA_CHOICE_GEN_REDIRECTS_H

@@ -1,4 +1,3 @@
-
 /*
  * MIT License
  *
@@ -24,20 +23,29 @@
  * SOFTWARE.
  */
 
-#ifndef POICA_ENUM_GEN_VCONSTRS_VARIANT_KIND_SINGLE_H
-#define POICA_ENUM_GEN_VCONSTRS_VARIANT_KIND_SINGLE_H
+#ifndef POICA_CHOICE_GEN_REDIRECTS_TO_OUTER_CHOICE_TYPE_H
+#define POICA_CHOICE_GEN_REDIRECTS_TO_OUTER_CHOICE_TYPE_H
 
-#include <poica/enum/gen/tags.h>
+#include <poica/private/aux.h>
+
+#include <poica/choice/introspection.h>
+#include <poica/choice/variant.h>
 
 #include <boost/preprocessor.hpp>
 
-#define POICA_P_ENUM_GEN_VCONSTR_VARIANT_KIND_SINGLE(                          \
-    enum_name, variant_name, variant_type)                                     \
-    inline static enum_name variant_name(variant_type arg) {                   \
-        return (enum_name){                                                    \
-            .tag = POICA_P_ENUM_VARIANT_NAME_AS_TAG(variant_name),             \
-            .data.variant_name = arg,                                          \
-        };                                                                     \
-    }
+#define POICA_P_CHOICE_GEN_REDIRECTS_VARIANT_TO_OUTER_CHOICE_TYPE(choice_name, \
+                                                                  variants)    \
+    BOOST_PP_SEQ_FOR_EACH(                                                     \
+        POICA_P_CHOICE_GEN_REDIRECT_VARIANT_TO_OUTER_CHOICE_TYPE,              \
+        choice_name,                                                           \
+        variants)
 
-#endif // POICA_ENUM_GEN_VCONSTRS_VARIANT_KIND_SINGLE_H
+#define POICA_P_CHOICE_GEN_REDIRECT_VARIANT_TO_OUTER_CHOICE_TYPE(              \
+    _r, choice_name, variant)                                                  \
+    typedef choice_name POICA_P_CHOICE_REDIRECT_VARIANT_TO_OUTER_CHOICE_TYPE(  \
+        POICA_VARIANT_NAME(variant));
+
+#define POICA_P_CHOICE_REDIRECT_VARIANT_TO_OUTER_CHOICE_TYPE(variant_name)     \
+    POICA_P_PREFIX(BOOST_PP_CAT(variant_name, _RedirectToOuterSumType))
+
+#endif // POICA_CHOICE_GEN_REDIRECTS_TO_OUTER_CHOICE_TYPE_H

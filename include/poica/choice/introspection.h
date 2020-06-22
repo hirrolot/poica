@@ -23,15 +23,20 @@
  * SOFTWARE.
  */
 
-#ifndef ENUM_GEN_REDIRECTS_TO_INNER_TYPE_VARIANT_KIND_MANY_H
-#define ENUM_GEN_REDIRECTS_TO_INNER_TYPE_VARIANT_KIND_MANY_H
+#ifndef POICA_CHOICE_INTROSPECTION_H
+#define POICA_CHOICE_INTROSPECTION_H
+
+#include <poica/choice/introspection/overload_on_variant.h>
 
 #include <boost/preprocessor.hpp>
 
-// Generate nothing because we already generate a product type for
-// POICA_VARIANT_KIND_MANY with a name
-// POICA_P_ENUM_REDIRECT_VARIANT_TO_INNER_TYPE(variant_name).
-#define POICA_P_ENUM_GEN_REDIRECT_VARIANT_TO_INNER_TYPE_VARIANT_KIND_MANY(     \
-    _data, _variant_name, _fields)
+// This macro is variadic because, due to type introspection, it must work
+// correctly if actual sum type data is transferred through a macro:
+// POICA_CHOICE_INTROSPECT(MY_CHOICE);
+#define POICA_CHOICE_INTROSPECT(...)                  POICA_P_CHOICE_INTROSPECT_AUX(__VA_ARGS__)
+#define POICA_P_CHOICE_INTROSPECT_AUX(name, variants) variants
 
-#endif // ENUM_GEN_REDIRECTS_TO_INNER_TYPE_VARIANT_KIND_MANY_H
+#define POICA_VARIANT_KIND(variant) BOOST_PP_SEQ_ELEM(0, variant)
+#define POICA_VARIANT_NAME(variant) BOOST_PP_SEQ_ELEM(1, variant)
+
+#endif // POICA_CHOICE_INTROSPECTION_H

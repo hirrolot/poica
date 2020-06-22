@@ -23,38 +23,31 @@
  * SOFTWARE.
  */
 
-#ifndef POICA_ENUM_TRY_H
-#define POICA_ENUM_TRY_H
+#ifndef POICA_CHOICE_VARIANT_H
+#define POICA_CHOICE_VARIANT_H
 
-#include <poica/enum/pattern_matching.h>
+#include <poica/record/field.h>
 
 #include <boost/preprocessor.hpp>
 
 #ifdef POICA_USE_PREFIX
-
-#define poicaTry(enum_ptr, case_expr, failure_expr)                            \
-    POICA_P_TRY(const, enum_ptr, case_expr, failure_expr)
-#define poicaTryMut(enum_ptr, case_expr, failure_expr)                         \
-    POICA_P_TRY(, enum_ptr, case_expr, failure_expr)
-
+#define poicaVariant     POICA_P_VARIANT
+#define poicaVariantMany POICA_P_VARIANT_KIND_MANY
 #else
-
-// clang-format off
-#define try(enum_ptr, case_expr, failure_expr)                                \
-    POICA_P_TRY(const, enum_ptr, case_expr, failure_expr)
-// clang-format on
-
-#define tryMut(enum_ptr, case_expr, failure_expr)                              \
-    POICA_P_TRY(, enum_ptr, case_expr, failure_expr)
-
+#define variant     POICA_P_VARIANT
+#define variantMany POICA_P_VARIANT_KIND_MANY
 #endif
 
-#define POICA_P_TRY(qualifier, enum_ptr, case_expr, failure_expr)              \
-    POICA_P_MATCH(qualifier, enum_ptr) {                                       \
-        case_expr {                                                            \
-            return failure_expr;                                               \
-        }                                                                      \
-        POICA_P_DEFAULT {}                                                     \
-    }
+#define POICA_P_VARIANT(...)                                                   \
+    BOOST_PP_OVERLOAD(POICA_P_VARIANT_, __VA_ARGS__)(__VA_ARGS__)
 
-#endif // POICA_ENUM_TRY_H
+#define POICA_P_VARIANT_KIND_MANY(variant_name, fields)                        \
+    ((POICA_VARIANT_KIND_MANY)(variant_name)(fields))
+
+#define POICA_P_VARIANT_1(variant_name)                                        \
+    ((POICA_VARIANT_KIND_EMPTY)(variant_name))
+
+#define POICA_P_VARIANT_2(variant_name, variant_type)                          \
+    ((POICA_VARIANT_KIND_SINGLE)(variant_name)(variant_type))
+
+#endif // POICA_CHOICE_VARIANT_H

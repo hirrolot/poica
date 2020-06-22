@@ -1,3 +1,4 @@
+
 /*
  * MIT License
  *
@@ -23,31 +24,20 @@
  * SOFTWARE.
  */
 
-#ifndef POICA_ENUM_VARIANT_H
-#define POICA_ENUM_VARIANT_H
+#ifndef POICA_CHOICE_GEN_VCONSTRS_VARIANT_KIND_SINGLE_H
+#define POICA_CHOICE_GEN_VCONSTRS_VARIANT_KIND_SINGLE_H
 
-#include <poica/record/field.h>
+#include <poica/choice/gen/tags.h>
 
 #include <boost/preprocessor.hpp>
 
-#ifdef POICA_USE_PREFIX
-#define poicaVariant     POICA_P_VARIANT
-#define poicaVariantMany POICA_P_VARIANT_KIND_MANY
-#else
-#define variant     POICA_P_VARIANT
-#define variantMany POICA_P_VARIANT_KIND_MANY
-#endif
+#define POICA_P_CHOICE_GEN_VCONSTR_VARIANT_KIND_SINGLE(                        \
+    choice_name, variant_name, variant_type)                                   \
+    inline static choice_name variant_name(variant_type arg) {                 \
+        return (choice_name){                                                  \
+            .tag = POICA_P_CHOICE_VARIANT_NAME_AS_TAG(variant_name),           \
+            .data.variant_name = arg,                                          \
+        };                                                                     \
+    }
 
-#define POICA_P_VARIANT(...)                                                   \
-    BOOST_PP_OVERLOAD(POICA_P_VARIANT_, __VA_ARGS__)(__VA_ARGS__)
-
-#define POICA_P_VARIANT_KIND_MANY(variant_name, fields)                        \
-    ((POICA_VARIANT_KIND_MANY)(variant_name)(fields))
-
-#define POICA_P_VARIANT_1(variant_name)                                        \
-    ((POICA_VARIANT_KIND_EMPTY)(variant_name))
-
-#define POICA_P_VARIANT_2(variant_name, variant_type)                          \
-    ((POICA_VARIANT_KIND_SINGLE)(variant_name)(variant_type))
-
-#endif // POICA_ENUM_VARIANT_H
+#endif // POICA_CHOICE_GEN_VCONSTRS_VARIANT_KIND_SINGLE_H

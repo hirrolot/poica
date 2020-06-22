@@ -23,24 +23,22 @@
  * SOFTWARE.
  */
 
-#ifndef POICA_ENUM_GEN_VCONSTRS_H
-#define POICA_ENUM_GEN_VCONSTRS_H
+#ifndef POICA_CHOICE_GEN_TAGS_H
+#define POICA_CHOICE_GEN_TAGS_H
 
-#include <poica/private/defer.h>
+#include <poica/private/aux.h>
 
-#include <poica/enum/introspection.h>
-
-#include <poica/enum/gen/vconstrs/variant_kind_empty.h>
-#include <poica/enum/gen/vconstrs/variant_kind_many.h>
-#include <poica/enum/gen/vconstrs/variant_kind_single.h>
+#include <poica/choice/introspection.h>
 
 #include <boost/preprocessor.hpp>
 
-#define POICA_P_ENUM_GEN_VCONSTRS(enum_name, variants)                         \
-    POICA_P_EXPAND(POICA_P_EXPAND(                                             \
-        BOOST_PP_SEQ_FOR_EACH(POICA_P_ENUM_GEN_VCONSTR, enum_name, variants)))
+#define POICA_P_CHOICE_GEN_TAGS(variants)                                      \
+    BOOST_PP_SEQ_FOR_EACH(POICA_P_CHOICE_GEN_TAG, _data, variants)
 
-#define POICA_P_ENUM_GEN_VCONSTR(_r, enum_name, variant)                       \
-    POICA_OVERLOAD_ON_VARIANT(POICA_P_ENUM_GEN_VCONSTR_, enum_name, variant)
+#define POICA_P_CHOICE_GEN_TAG(_r, _data, variant)                             \
+    POICA_P_CHOICE_VARIANT_NAME_AS_TAG(POICA_VARIANT_NAME(variant)),
 
-#endif // POICA_ENUM_GEN_VCONSTRS_H
+#define POICA_P_CHOICE_VARIANT_NAME_AS_TAG(variant_name)                       \
+    POICA_P_PREFIX(BOOST_PP_CAT(variant_name, _Tag))
+
+#endif // POICA_CHOICE_GEN_TAGS_H

@@ -23,29 +23,28 @@
  * SOFTWARE.
  */
 
-#ifndef POICA_ENUM_GEN_REDIRECTS_TO_INNER_TYPE_H
-#define POICA_ENUM_GEN_REDIRECTS_TO_INNER_TYPE_H
+#ifndef POICA_CHOICE_GEN_FIELDS_H
+#define POICA_CHOICE_GEN_FIELDS_H
 
-#include <poica/private/aux.h>
-
-#include <poica/enum/gen/redirects/to_inner_type/variant_kind_empty.h>
-#include <poica/enum/gen/redirects/to_inner_type/variant_kind_many.h>
-#include <poica/enum/gen/redirects/to_inner_type/variant_kind_single.h>
-
-#include <poica/enum/gen/records_for_many.h>
-#include <poica/enum/introspection.h>
+#include <poica/choice/gen/redirects/to_inner_type.h>
+#include <poica/choice/variant.h>
 
 #include <boost/preprocessor.hpp>
 
-#define POICA_P_ENUM_GEN_REDIRECTS_VARIANT_TO_INNER_TYPE(variants)             \
-    BOOST_PP_SEQ_FOR_EACH(                                                     \
-        POICA_P_ENUM_GEN_REDIRECT_VARIANT_TO_INNER_TYPE, _data, variants)
+#define POICA_P_CHOICE_GEN_FIELDS(variants)                                    \
+    BOOST_PP_SEQ_FOR_EACH(POICA_P_CHOICE_GEN_FIELD, _data, variants)
 
-#define POICA_P_ENUM_GEN_REDIRECT_VARIANT_TO_INNER_TYPE(_r, _data, variant)    \
-    POICA_OVERLOAD_ON_VARIANT(                                                 \
-        POICA_P_ENUM_GEN_REDIRECT_VARIANT_TO_INNER_TYPE_, _data, variant)
+#define POICA_P_CHOICE_GEN_FIELD(_r, _data, variant)                           \
+    POICA_OVERLOAD_ON_VARIANT(POICA_P_CHOICE_GEN_FIELD_, _data, variant)
 
-#define POICA_P_ENUM_REDIRECT_VARIANT_TO_INNER_TYPE(variant_name)              \
-    POICA_P_PREFIX(BOOST_PP_CAT(variant_name, _RedirectToInnerType))
+#define POICA_P_CHOICE_GEN_FIELD_VARIANT_KIND_EMPTY(_data, variant_name)
 
-#endif // POICA_ENUM_GEN_REDIRECTS_TO_INNER_TYPE_H
+#define POICA_P_CHOICE_GEN_FIELD_VARIANT_KIND_SINGLE(                          \
+    _data, variant_name, variant_type)                                         \
+    variant_type variant_name;
+
+#define POICA_P_CHOICE_GEN_FIELD_VARIANT_KIND_MANY(                            \
+    _data, variant_name, _fields)                                              \
+    POICA_P_CHOICE_REDIRECT_VARIANT_TO_INNER_TYPE(variant_name) variant_name;
+
+#endif // POICA_CHOICE_GEN_FIELDS_H

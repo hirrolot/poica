@@ -23,18 +23,29 @@
  * SOFTWARE.
  */
 
-#ifndef POICA_ENUM_GEN_VCONSTRS_VARIANT_KIND_EMPTY_H
-#define POICA_ENUM_GEN_VCONSTRS_VARIANT_KIND_EMPTY_H
+#include <poica.h>
 
-#include <poica/enum/gen/tags.h>
+#include <stdio.h>
 
 #include <boost/preprocessor.hpp>
 
-#define POICA_P_ENUM_GEN_VCONSTR_VARIANT_KIND_EMPTY(enum_name, variant_name)   \
-    inline static enum_name variant_name(void) {                               \
-        return (enum_name){                                                    \
-            .tag = POICA_P_ENUM_VARIANT_NAME_AS_TAG(variant_name),             \
-        };                                                                     \
-    }
+// clang-format off
+#define MY_CHOICE                                                             \
+    Something,                                                              \
+    variant(MkA)                                                            \
+    variant(MkB, int)                                                       \
+    variantMany(MkC, field(c1, double) field(c2, char))
+// clang-format on
 
-#endif // POICA_ENUM_GEN_VCONSTRS_VARIANT_KIND_EMPTY_H
+choice(MY_CHOICE);
+#define Something_INTROSPECT POICA_CHOICE_INTROSPECT(MY_CHOICE)
+
+int main(void) {
+    /*
+     * Output:
+     * ((POICA_VARIANT_KIND_EMPTY)(MkA))
+     * ((POICA_VARIANT_KIND_SINGLE)(MkB)(int))
+     * ((POICA_VARIANT_KIND_MANY)(MkC)( ((c1)(double)) ((c2)(char)) ))
+     */
+    puts(BOOST_PP_STRINGIZE(Something_INTROSPECT));
+}

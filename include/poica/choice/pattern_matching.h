@@ -23,14 +23,14 @@
  * SOFTWARE.
  */
 
-#ifndef POICA_ENUM_PATTERN_MATCHING_H
-#define POICA_ENUM_PATTERN_MATCHING_H
+#ifndef POICA_CHOICE_PATTERN_MATCHING_H
+#define POICA_CHOICE_PATTERN_MATCHING_H
 
-#include <poica/enum/gen/tags.h>
+#include <poica/choice/gen/tags.h>
 
-#include <poica/enum/pattern_matching/aux.h>
-#include <poica/enum/pattern_matching/immut.h>
-#include <poica/enum/pattern_matching/mut.h>
+#include <poica/choice/pattern_matching/aux.h>
+#include <poica/choice/pattern_matching/immut.h>
+#include <poica/choice/pattern_matching/mut.h>
 
 #ifdef POICA_USE_PREFIX
 
@@ -44,12 +44,12 @@
 
 #endif
 
-#define POICA_P_MATCHES(enum_ptr, variant_name)                                \
-    ((enum_ptr)->tag == POICA_P_ENUM_VARIANT_NAME_AS_TAG(variant_name))
+#define POICA_P_MATCHES(choice_ptr, variant_name)                              \
+    ((choice_ptr)->tag == POICA_P_CHOICE_VARIANT_NAME_AS_TAG(variant_name))
 
 #define POICA_P_DEFAULT                                                        \
     /* FALLTHRU */                                                             \
     default:                                                                   \
-        POICA_P_ENUM_BREAK_IF_NEEDED
+        POICA_P_CHOICE_BREAK_IF_NEEDED
 
-#endif // POICA_ENUM_PATTERN_MATCHING_H
+#endif // POICA_CHOICE_PATTERN_MATCHING_H
