@@ -23,24 +23,28 @@
  * SOFTWARE.
  */
 
-#ifndef POICA_ENUM_GEN_VCONSTRS_H
-#define POICA_ENUM_GEN_VCONSTRS_H
+#ifndef POICA_CHOICE_GEN_REDIRECTS_TO_INNER_TYPE_H
+#define POICA_CHOICE_GEN_REDIRECTS_TO_INNER_TYPE_H
 
-#include <poica/private/defer.h>
+#include <poica/private/aux.h>
 
-#include <poica/enum/introspection.h>
-
-#include <poica/enum/gen/vconstrs/variant_kind_empty.h>
-#include <poica/enum/gen/vconstrs/variant_kind_many.h>
-#include <poica/enum/gen/vconstrs/variant_kind_single.h>
+#include <poica/choice/gen/records_for_many.h>
+#include <poica/choice/gen/redirects/to_inner_type/variant_kind_empty.h>
+#include <poica/choice/gen/redirects/to_inner_type/variant_kind_many.h>
+#include <poica/choice/gen/redirects/to_inner_type/variant_kind_single.h>
+#include <poica/choice/introspection.h>
 
 #include <boost/preprocessor.hpp>
 
-#define POICA_P_ENUM_GEN_VCONSTRS(enum_name, variants)                         \
-    POICA_P_EXPAND(POICA_P_EXPAND(                                             \
-        BOOST_PP_SEQ_FOR_EACH(POICA_P_ENUM_GEN_VCONSTR, enum_name, variants)))
+#define POICA_P_CHOICE_GEN_REDIRECTS_VARIANT_TO_INNER_TYPE(variants)           \
+    BOOST_PP_SEQ_FOR_EACH(                                                     \
+        POICA_P_CHOICE_GEN_REDIRECT_VARIANT_TO_INNER_TYPE, _data, variants)
 
-#define POICA_P_ENUM_GEN_VCONSTR(_r, enum_name, variant)                       \
-    POICA_OVERLOAD_ON_VARIANT(POICA_P_ENUM_GEN_VCONSTR_, enum_name, variant)
+#define POICA_P_CHOICE_GEN_REDIRECT_VARIANT_TO_INNER_TYPE(_r, _data, variant)  \
+    POICA_OVERLOAD_ON_VARIANT(                                                 \
+        POICA_P_CHOICE_GEN_REDIRECT_VARIANT_TO_INNER_TYPE_, _data, variant)
 
-#endif // POICA_ENUM_GEN_VCONSTRS_H
+#define POICA_P_CHOICE_REDIRECT_VARIANT_TO_INNER_TYPE(variant_name)            \
+    POICA_P_PREFIX(BOOST_PP_CAT(variant_name, _RedirectToInnerType))
+
+#endif // POICA_CHOICE_GEN_REDIRECTS_TO_INNER_TYPE_H

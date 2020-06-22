@@ -23,29 +23,25 @@
  * SOFTWARE.
  */
 
-#ifndef POICA_ENUM_GEN_REDIRECTS_TO_INNER_TYPE_H
-#define POICA_ENUM_GEN_REDIRECTS_TO_INNER_TYPE_H
+#ifndef POICA_CHOICE_INTROSPECTION_OVERLOAD_ON_VARIANT_H
+#define POICA_CHOICE_INTROSPECTION_OVERLOAD_ON_VARIANT_H
 
-#include <poica/private/aux.h>
-
-#include <poica/enum/gen/redirects/to_inner_type/variant_kind_empty.h>
-#include <poica/enum/gen/redirects/to_inner_type/variant_kind_many.h>
-#include <poica/enum/gen/redirects/to_inner_type/variant_kind_single.h>
-
-#include <poica/enum/gen/records_for_many.h>
-#include <poica/enum/introspection.h>
+#include <poica/choice/introspection.h>
 
 #include <boost/preprocessor.hpp>
 
-#define POICA_P_ENUM_GEN_REDIRECTS_VARIANT_TO_INNER_TYPE(variants)             \
-    BOOST_PP_SEQ_FOR_EACH(                                                     \
-        POICA_P_ENUM_GEN_REDIRECT_VARIANT_TO_INNER_TYPE, _data, variants)
+#define POICA_OVERLOAD_ON_VARIANT(macro, data, variant)                        \
+    POICA_P_CHOICE_OVERLOAD_ON_VARIANT_AUX(                                    \
+        BOOST_PP_CAT(macro,                                                    \
+                     BOOST_PP_CAT(POICA_P_CHOICE_RENAME_,                      \
+                                  POICA_VARIANT_KIND(variant))),               \
+        data,                                                                  \
+        BOOST_PP_SEQ_ENUM(BOOST_PP_SEQ_POP_FRONT(variant)))
 
-#define POICA_P_ENUM_GEN_REDIRECT_VARIANT_TO_INNER_TYPE(_r, _data, variant)    \
-    POICA_OVERLOAD_ON_VARIANT(                                                 \
-        POICA_P_ENUM_GEN_REDIRECT_VARIANT_TO_INNER_TYPE_, _data, variant)
+#define POICA_P_CHOICE_OVERLOAD_ON_VARIANT_AUX(macro, ...) macro(__VA_ARGS__)
 
-#define POICA_P_ENUM_REDIRECT_VARIANT_TO_INNER_TYPE(variant_name)              \
-    POICA_P_PREFIX(BOOST_PP_CAT(variant_name, _RedirectToInnerType))
+#define POICA_P_CHOICE_RENAME_POICA_VARIANT_KIND_EMPTY  VARIANT_KIND_EMPTY
+#define POICA_P_CHOICE_RENAME_POICA_VARIANT_KIND_SINGLE VARIANT_KIND_SINGLE
+#define POICA_P_CHOICE_RENAME_POICA_VARIANT_KIND_MANY   VARIANT_KIND_MANY
 
-#endif // POICA_ENUM_GEN_REDIRECTS_TO_INNER_TYPE_H
+#endif // POICA_CHOICE_INTROSPECTION_OVERLOAD_ON_VARIANT_H

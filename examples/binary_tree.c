@@ -28,7 +28,7 @@
 #include <stdio.h>
 
 // clang-format off
-enum(
+choice(
     Tree,
     variant(MkEmpty)
     variant(MkLeaf, int)

@@ -23,33 +23,28 @@
  * SOFTWARE.
  */
 
-#ifndef POICA_ENUM_PATTERN_MATCHING_H
-#define POICA_ENUM_PATTERN_MATCHING_H
+#ifndef POICA_CHOICE_GEN_FIELDS_H
+#define POICA_CHOICE_GEN_FIELDS_H
 
-#include <poica/enum/gen/tags.h>
+#include <poica/choice/gen/redirects/to_inner_type.h>
+#include <poica/choice/variant.h>
 
-#include <poica/enum/pattern_matching/aux.h>
-#include <poica/enum/pattern_matching/immut.h>
-#include <poica/enum/pattern_matching/mut.h>
+#include <boost/preprocessor.hpp>
 
-#ifdef POICA_USE_PREFIX
+#define POICA_P_CHOICE_GEN_FIELDS(variants)                                    \
+    BOOST_PP_SEQ_FOR_EACH(POICA_P_CHOICE_GEN_FIELD, _data, variants)
 
-#define poicaMatches   POICA_P_MATCHES
-#define poicaDefault() POICA_P_DEFAULT()
+#define POICA_P_CHOICE_GEN_FIELD(_r, _data, variant)                           \
+    POICA_OVERLOAD_ON_VARIANT(POICA_P_CHOICE_GEN_FIELD_, _data, variant)
 
-#else
+#define POICA_P_CHOICE_GEN_FIELD_VARIANT_KIND_EMPTY(_data, variant_name)
 
-#define matches POICA_P_MATCHES
-#define default() POICA_P_DEFAULT()
+#define POICA_P_CHOICE_GEN_FIELD_VARIANT_KIND_SINGLE(                          \
+    _data, variant_name, variant_type)                                         \
+    variant_type variant_name;
 
-#endif
+#define POICA_P_CHOICE_GEN_FIELD_VARIANT_KIND_MANY(                            \
+    _data, variant_name, _fields)                                              \
+    POICA_P_CHOICE_REDIRECT_VARIANT_TO_INNER_TYPE(variant_name) variant_name;
 
-#define POICA_P_MATCHES(enum_ptr, variant_name)                                \
-    ((enum_ptr)->tag == POICA_P_ENUM_VARIANT_NAME_AS_TAG(variant_name))
-
-#define POICA_P_DEFAULT                                                        \
-    /* FALLTHRU */                                                             \
-    default:                                                                   \
-        POICA_P_ENUM_BREAK_IF_NEEDED
-
-#endif // POICA_ENUM_PATTERN_MATCHING_H
+#endif // POICA_CHOICE_GEN_FIELDS_H

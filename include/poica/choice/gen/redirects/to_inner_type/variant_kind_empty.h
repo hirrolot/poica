@@ -23,20 +23,13 @@
  * SOFTWARE.
  */
 
-#ifndef POICA_ENUM_INTROSPECTION_H
-#define POICA_ENUM_INTROSPECTION_H
-
-#include <poica/enum/introspection/overload_on_variant.h>
+#ifndef CHOICE_GEN_REDIRECTS_TO_INNER_TYPE_VARIANT_KIND_EMPTY_H
+#define CHOICE_GEN_REDIRECTS_TO_INNER_TYPE_VARIANT_KIND_EMPTY_H
 
 #include <boost/preprocessor.hpp>
 
-// This macro is variadic because, due to type introspection, it must work
-// correctly if actual sum type data is transferred through a macro:
-// POICA_ENUM_INTROSPECT(MY_ENUM);
-#define POICA_ENUM_INTROSPECT(...)                  POICA_P_ENUM_INTROSPECT_AUX(__VA_ARGS__)
-#define POICA_P_ENUM_INTROSPECT_AUX(name, variants) variants
+// Generate nothing because an empty variant has no actual type.
+#define POICA_P_CHOICE_GEN_REDIRECT_VARIANT_TO_INNER_TYPE_VARIANT_KIND_EMPTY(  \
+    _data, _variant_name)
 
-#define POICA_VARIANT_KIND(variant) BOOST_PP_SEQ_ELEM(0, variant)
-#define POICA_VARIANT_NAME(variant) BOOST_PP_SEQ_ELEM(1, variant)
-
-#endif // POICA_ENUM_INTROSPECTION_H
+#endif // CHOICE_GEN_REDIRECTS_TO_INNER_TYPE_VARIANT_KIND_EMPTY_H

@@ -1,4 +1,3 @@
-
 /*
  * MIT License
  *
@@ -24,20 +23,33 @@
  * SOFTWARE.
  */
 
-#ifndef POICA_ENUM_GEN_VCONSTRS_VARIANT_KIND_SINGLE_H
-#define POICA_ENUM_GEN_VCONSTRS_VARIANT_KIND_SINGLE_H
+#ifndef POICA_CHOICE_PATTERN_MATCHING_H
+#define POICA_CHOICE_PATTERN_MATCHING_H
 
-#include <poica/enum/gen/tags.h>
+#include <poica/choice/gen/tags.h>
 
-#include <boost/preprocessor.hpp>
+#include <poica/choice/pattern_matching/aux.h>
+#include <poica/choice/pattern_matching/immut.h>
+#include <poica/choice/pattern_matching/mut.h>
 
-#define POICA_P_ENUM_GEN_VCONSTR_VARIANT_KIND_SINGLE(                          \
-    enum_name, variant_name, variant_type)                                     \
-    inline static enum_name variant_name(variant_type arg) {                   \
-        return (enum_name){                                                    \
-            .tag = POICA_P_ENUM_VARIANT_NAME_AS_TAG(variant_name),             \
-            .data.variant_name = arg,                                          \
-        };                                                                     \
-    }
+#ifdef POICA_USE_PREFIX
 
-#endif // POICA_ENUM_GEN_VCONSTRS_VARIANT_KIND_SINGLE_H
+#define poicaMatches   POICA_P_MATCHES
+#define poicaDefault() POICA_P_DEFAULT()
+
+#else
+
+#define matches POICA_P_MATCHES
+#define default() POICA_P_DEFAULT()
+
+#endif
+
+#define POICA_P_MATCHES(choice_ptr, variant_name)                              \
+    ((choice_ptr)->tag == POICA_P_CHOICE_VARIANT_NAME_AS_TAG(variant_name))
+
+#define POICA_P_DEFAULT                                                        \
+    /* FALLTHRU */                                                             \
+    default:                                                                   \
+        POICA_P_CHOICE_BREAK_IF_NEEDED
+
+#endif // POICA_CHOICE_PATTERN_MATCHING_H

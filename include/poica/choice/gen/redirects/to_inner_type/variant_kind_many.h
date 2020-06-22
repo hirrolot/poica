@@ -23,25 +23,15 @@
  * SOFTWARE.
  */
 
-#ifndef POICA_ENUM_INTROSPECTION_OVERLOAD_ON_VARIANT_H
-#define POICA_ENUM_INTROSPECTION_OVERLOAD_ON_VARIANT_H
-
-#include <poica/enum/introspection.h>
+#ifndef CHOICE_GEN_REDIRECTS_TO_INNER_TYPE_VARIANT_KIND_MANY_H
+#define CHOICE_GEN_REDIRECTS_TO_INNER_TYPE_VARIANT_KIND_MANY_H
 
 #include <boost/preprocessor.hpp>
 
-#define POICA_OVERLOAD_ON_VARIANT(macro, data, variant)                        \
-    POICA_P_ENUM_OVERLOAD_ON_VARIANT_AUX(                                      \
-        BOOST_PP_CAT(                                                          \
-            macro,                                                             \
-            BOOST_PP_CAT(POICA_P_ENUM_RENAME_, POICA_VARIANT_KIND(variant))),  \
-        data,                                                                  \
-        BOOST_PP_SEQ_ENUM(BOOST_PP_SEQ_POP_FRONT(variant)))
+// Generate nothing because we already generate a product type for
+// POICA_VARIANT_KIND_MANY with a name
+// POICA_P_CHOICE_REDIRECT_VARIANT_TO_INNER_TYPE(variant_name).
+#define POICA_P_CHOICE_GEN_REDIRECT_VARIANT_TO_INNER_TYPE_VARIANT_KIND_MANY(   \
+    _data, _variant_name, _fields)
 
-#define POICA_P_ENUM_OVERLOAD_ON_VARIANT_AUX(macro, ...) macro(__VA_ARGS__)
-
-#define POICA_P_ENUM_RENAME_POICA_VARIANT_KIND_EMPTY  VARIANT_KIND_EMPTY
-#define POICA_P_ENUM_RENAME_POICA_VARIANT_KIND_SINGLE VARIANT_KIND_SINGLE
-#define POICA_P_ENUM_RENAME_POICA_VARIANT_KIND_MANY   VARIANT_KIND_MANY
-
-#endif // POICA_ENUM_INTROSPECTION_OVERLOAD_ON_VARIANT_H
+#endif // CHOICE_GEN_REDIRECTS_TO_INNER_TYPE_VARIANT_KIND_MANY_H
