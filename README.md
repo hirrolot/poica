@@ -1,6 +1,6 @@
 # poica
 [![CI](https://github.com/hirrolot/poica/workflows/C/C++%20CI/badge.svg)](https://github.com/hirrolot/poica/actions?query=workflow%3A%22C%2FC%2B%2B+CI%22)
-[![version](https://img.shields.io/badge/version-0.1.0-orange.svg)](https://github.com/hirrolot/poica/releases/tag/v0.1.0)
+[![version](https://img.shields.io/badge/version-0.3.0-orange.svg)](https://github.com/hirrolot/poica/releases/tag/v0.3.0)
 [![docs](https://img.shields.io/badge/docs-wiki/Specification-blue.svg)](https://github.com/hirrolot/poica/wiki/Specification)
 
 This library provides [algebraic data types], [type introspection], and [pattern matching] for pure C11. They have tremendous amount of applications to real-world programming, including:
