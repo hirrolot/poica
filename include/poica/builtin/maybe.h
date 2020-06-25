@@ -23,32 +23,39 @@
  * SOFTWARE.
  */
 
-#ifndef POICA_PAIR_H
-#define POICA_PAIR_H
+#ifndef POICA_BUILTIN_MAYBE_H
+#define POICA_BUILTIN_MAYBE_H
 
 #include <poica/private/form_type_name.h>
 
-#include <poica/record.h>
+#include <poica/choice.h>
 
 #include <boost/preprocessor.hpp>
 
 #ifdef POICA_USE_PREFIX
 
-#define PoicaDefPair POICA_P_PAIR_DEF
-#define PoicaPair    POICA_P_PAIR
+#define PoicaDefMaybe POICA_P_MAYBE_DEF
+#define PoicaMaybe    POICA_P_MAYBE
+#define PoicaJust     POICA_P_MAYBE_JUST
+#define PoicaNothing  POICA_P_MAYBE_NOTHING
 
 #else
 
-#define DefPair POICA_P_PAIR_DEF
-#define Pair    POICA_P_PAIR
+#define DefMaybe POICA_P_MAYBE_DEF
+#define Maybe    POICA_P_MAYBE
+#define Just     POICA_P_MAYBE_JUST
+#define Nothing  POICA_P_MAYBE_NOTHING
 
 #endif
 
-#define POICA_P_PAIR_DEF(fst_type, snd_type)                                   \
-    record(POICA_P_PAIR(fst_type, snd_type),                                   \
-           field(fst, fst_type) variant(snd, snd_type))
+#define POICA_P_MAYBE_DEF(type)                                                \
+    choice(POICA_P_MAYBE(type),                                                \
+           variant(POICA_P_MAYBE_JUST(type), type)                             \
+               variant(POICA_P_MAYBE_NOTHING(type)))
 
-#define POICA_P_PAIR(fst_type, snd_type)                                       \
-    POICA_P_FORM_TYPE_NAME(Pair, fst_type, snd_type)
+#define POICA_P_MAYBE(type)      POICA_P_FORM_TYPE_NAME(Maybe, ok_type)
+#define POICA_P_MAYBE_JUST(type) POICA_P_FORM_TYPE_NAME(MaybeJust, ok_type)
+#define POICA_P_MAYBE_NOTHING(type)                                            \
+    POICA_P_FORM_TYPE_NAME(MaybeNothing, ok_type)
 
-#endif // POICA_PAIR_H
+#endif // POICA_BUILTIN_MAYBE_H

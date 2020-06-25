@@ -23,43 +23,32 @@
  * SOFTWARE.
  */
 
-#ifndef POICA_RES_H
-#define POICA_RES_H
+#ifndef POICA_BUILTIN_PAIR_H
+#define POICA_BUILTIN_PAIR_H
 
 #include <poica/private/form_type_name.h>
 
-#include <poica/choice.h>
+#include <poica/record.h>
 
 #include <boost/preprocessor.hpp>
 
 #ifdef POICA_USE_PREFIX
 
-#define PoicaDefRes POICA_P_RES_DEF
-#define PoicaRes    POICA_P_RES
-#define PoicaOk     POICA_P_RES_OK
-#define PoicaErr    POICA_P_RES_ERR
+#define PoicaDefPair POICA_P_PAIR_DEF
+#define PoicaPair    POICA_P_PAIR
 
 #else
 
-#define DefRes POICA_P_RES_DEF
-#define Res    POICA_P_RES
-#define Ok     POICA_P_RES_OK
-#define Err    POICA_P_RES_ERR
+#define DefPair POICA_P_PAIR_DEF
+#define Pair    POICA_P_PAIR
 
 #endif
 
-#define POICA_P_RES_DEF(ok_type, err_type)                                     \
-    choice(POICA_P_RES(ok_type, err_type),                                     \
-           variant(POICA_P_RES_OK(ok_type, err_type), ok_type)                 \
-               variant(POICA_P_RES_ERR(ok_type, err_type), err_type))
+#define POICA_P_PAIR_DEF(fst_type, snd_type)                                   \
+    record(POICA_P_PAIR(fst_type, snd_type),                                   \
+           field(fst, fst_type) variant(snd, snd_type))
 
-#define POICA_P_RES(ok_type, err_type)                                         \
-    POICA_P_FORM_TYPE_NAME(Res, ok_type, err_type)
+#define POICA_P_PAIR(fst_type, snd_type)                                       \
+    POICA_P_FORM_TYPE_NAME(Pair, fst_type, snd_type)
 
-#define POICA_P_RES_OK(ok_type, err_type)                                      \
-    POICA_P_FORM_TYPE_NAME(ResOk, ok_type, err_type)
-
-#define POICA_P_RES_ERR(ok_type, err_type)                                     \
-    POICA_P_FORM_TYPE_NAME(ResErr, ok_type, err_type)
-
-#endif // POICA_RES_H
+#endif // POICA_BUILTIN_PAIR_H

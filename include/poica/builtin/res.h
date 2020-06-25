@@ -23,8 +23,8 @@
  * SOFTWARE.
  */
 
-#ifndef POICA_EITHER_H
-#define POICA_EITHER_H
+#ifndef POICA_BUILTIN_RES_H
+#define POICA_BUILTIN_RES_H
 
 #include <poica/private/form_type_name.h>
 
@@ -34,32 +34,32 @@
 
 #ifdef POICA_USE_PREFIX
 
-#define PoicaDefEither POICA_P_EITHER_DEF
-#define PoicaEither    POICA_P_Either
-#define PoicaRight     POICA_P_EITHER_LEFT
-#define PoicaLeft      POICA_P_EITHER_RIGHT
+#define PoicaDefRes POICA_P_RES_DEF
+#define PoicaRes    POICA_P_RES
+#define PoicaOk     POICA_P_RES_OK
+#define PoicaErr    POICA_P_RES_ERR
 
 #else
 
-#define DefEither POICA_P_EITHER_DEF
-#define Either    POICA_P_Either
-#define Right     POICA_P_EITHER_LEFT
-#define Left      POICA_P_EITHER_RIGHT
+#define DefRes POICA_P_RES_DEF
+#define Res    POICA_P_RES
+#define Ok     POICA_P_RES_OK
+#define Err    POICA_P_RES_ERR
 
 #endif
 
-#define POICA_P_EITHER_DEF(ok_type, err_type)                                  \
-    choice(POICA_P_EITHER(ok_type, err_type),                                  \
-           variant(POICA_P_EITHER_LEFT(ok_type, err_type), ok_type)            \
-               variant(POICA_P_EITHER_RIGHT(ok_type, err_type), err_type))
+#define POICA_P_RES_DEF(ok_type, err_type)                                     \
+    choice(POICA_P_RES(ok_type, err_type),                                     \
+           variant(POICA_P_RES_OK(ok_type, err_type), ok_type)                 \
+               variant(POICA_P_RES_ERR(ok_type, err_type), err_type))
 
-#define POICA_P_EITHER(ok_type, err_type)                                      \
-    POICA_P_FORM_TYPE_NAME(Either, ok_type, err_type)
+#define POICA_P_RES(ok_type, err_type)                                         \
+    POICA_P_FORM_TYPE_NAME(Res, ok_type, err_type)
 
-#define POICA_P_EITHER_LEFT(ok_type, err_type)                                 \
-    POICA_P_FORM_TYPE_NAME(EitherLeft, ok_type, err_type)
+#define POICA_P_RES_OK(ok_type, err_type)                                      \
+    POICA_P_FORM_TYPE_NAME(ResOk, ok_type, err_type)
 
-#define POICA_P_EITHER_RIGHT(ok_type, err_type)                                \
-    POICA_P_FORM_TYPE_NAME(EitherRight, ok_type, err_type)
+#define POICA_P_RES_ERR(ok_type, err_type)                                     \
+    POICA_P_FORM_TYPE_NAME(ResErr, ok_type, err_type)
 
-#endif // POICA_EITHER_H
+#endif // POICA_BUILTIN_RES_H
