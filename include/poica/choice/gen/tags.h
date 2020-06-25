@@ -26,7 +26,7 @@
 #ifndef POICA_CHOICE_GEN_TAGS_H
 #define POICA_CHOICE_GEN_TAGS_H
 
-#include <poica/private/aux.h>
+#include <poica/private/prefix.h>
 
 #include <poica/choice/introspection.h>
 

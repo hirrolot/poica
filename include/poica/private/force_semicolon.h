@@ -23,14 +23,11 @@
  * SOFTWARE.
  */
 
-#ifndef POICA_PRIVATE_AUX_H
-#define POICA_PRIVATE_AUX_H
+#ifndef POICA_PRIVATE_FORCE_SEMICOLON_H
+#define POICA_PRIVATE_FORCE_SEMICOLON_H
 
 #include <assert.h>
 
-#include <boost/preprocessor.hpp>
+#define POICA_P_FORCE_SEMICOLON static_assert(true, "")
 
-#define POICA_P_PREFIX(something) BOOST_PP_CAT(POICA_P_, something)
-#define POICA_P_FORCE_SEMICOLON   static_assert(true, "")
-
-#endif // POICA_PRIVATE_AUX_H
+#endif // POICA_PRIVATE_FORCE_SEMICOLON_H

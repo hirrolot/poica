@@ -23,28 +23,11 @@
  * SOFTWARE.
  */
 
-#ifndef POICA_CHOICE_GEN_REDIRECTS_TO_INNER_TYPE_H
-#define POICA_CHOICE_GEN_REDIRECTS_TO_INNER_TYPE_H
-
-#include <poica/private/prefix.h>
-
-#include <poica/choice/gen/records_for_many.h>
-#include <poica/choice/gen/redirects/to_inner_type/variant_kind_empty.h>
-#include <poica/choice/gen/redirects/to_inner_type/variant_kind_many.h>
-#include <poica/choice/gen/redirects/to_inner_type/variant_kind_single.h>
-#include <poica/choice/introspection.h>
+#ifndef POICA_PRIVATE_PREFIX_H
+#define POICA_PRIVATE_PREFIX_H
 
 #include <boost/preprocessor.hpp>
 
-#define POICA_P_CHOICE_GEN_REDIRECTS_VARIANT_TO_INNER_TYPE(variants)           \
-    BOOST_PP_SEQ_FOR_EACH(                                                     \
-        POICA_P_CHOICE_GEN_REDIRECT_VARIANT_TO_INNER_TYPE, _data, variants)
+#define POICA_P_PREFIX(something) BOOST_PP_CAT(POICA_P_, something)
 
-#define POICA_P_CHOICE_GEN_REDIRECT_VARIANT_TO_INNER_TYPE(_r, _data, variant)  \
-    POICA_OVERLOAD_ON_VARIANT(                                                 \
-        POICA_P_CHOICE_GEN_REDIRECT_VARIANT_TO_INNER_TYPE_, _data, variant)
-
-#define POICA_P_CHOICE_REDIRECT_VARIANT_TO_INNER_TYPE(variant_name)            \
-    POICA_P_PREFIX(BOOST_PP_CAT(variant_name, _RedirectToInnerType))
-
-#endif // POICA_CHOICE_GEN_REDIRECTS_TO_INNER_TYPE_H
+#endif // POICA_PRIVATE_PREFIX_H
