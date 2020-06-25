@@ -2,7 +2,7 @@
 
 Before contributing, please read our [code style] and examine the [Boost/Preprocessor] API.
 
-[code style]: https://github.com/hirrolot/poica/wiki/Code-style
+[code style]: https://github.com/hirrolot/poica/blob/master/CODE_STYLE.md
 [Boost/Preprocessor]: https://www.boost.org/doc/libs/1_53_0/libs/preprocessor/doc/
 
  - Any questions, bug reports, feature requests, and similar stuff goes to the [issues].
