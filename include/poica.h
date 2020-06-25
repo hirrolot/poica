@@ -30,4 +30,9 @@
 #include <poica/obj.h>
 #include <poica/record.h>
 
+#include <poica/either.h>
+#include <poica/maybe.h>
+#include <poica/pair.h>
+#include <poica/res.h>
+
 #endif // POICA_H

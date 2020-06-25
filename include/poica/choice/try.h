@@ -32,22 +32,22 @@
 
 #ifdef POICA_USE_PREFIX
 
-#define poicaTry(val, case_expr, failure_expr)                                 \
-    POICA_P_TRY(val, case_expr, failure_expr)
+#define poicaTry(val, case_variant, return_variant)                            \
+    POICA_P_TRY(val, case_variant, return_variant)
 
 #else
 
 // clang-format off
-#define try(val, case_expr, failure_expr)                                      \
-    POICA_P_TRY(val, case_expr, failure_expr)
+#define try(val, case_variant, return_variant)                                 \
+    POICA_P_TRY(val, case_variant, return_variant)
 // clang-format on
 
 #endif
 
-#define POICA_P_TRY(val, case_expr, failure_expr)                              \
+#define POICA_P_TRY(val, case_variant, return_variant)                         \
     POICA_P_MATCH(val) {                                                       \
-        case_expr {                                                            \
-            return failure_expr;                                               \
+        of(case_variant, variant_val) {                                        \
+            return return_variant(*variant_val);                               \
         }                                                                      \
         POICA_P_OTHERWISE {}                                                   \
     }
