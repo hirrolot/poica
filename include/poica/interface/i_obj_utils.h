@@ -23,30 +23,32 @@
  * SOFTWARE.
  */
 
-#ifndef POICA_INTERFACE_METHOD_H
-#define POICA_INTERFACE_METHOD_H
+#ifndef POICA_INTERFACE_I_OBJ_UTILS_H
+#define POICA_INTERFACE_I_OBJ_UTILS_H
 
 #ifdef POICA_USE_PREFIX
 
-#define poicaIMethod        POICA_P_I_METHOD
-#define poicaIMethodSelf    POICA_P_I_METHOD_SELF
-#define poicaIMethodMutSelf POICA_P_I_METHOD_MUT_SELF
+#define poicaIObjCall         POICA_P_I_OBJ_CALL
+#define poicaIObjCallWithArgs POICA_P_I_OBJ_CALL_WITH_ARGS
+
+#define poicaInitIObj POICA_P_INIT_I_OBJ
 
 #else
 
-#define iMethod        POICA_P_I_METHOD
-#define iMethodSelf    POICA_P_I_METHOD_SELF
-#define iMethodMutSelf POICA_P_I_METHOD_MUT_SELF
+#define iObjCall         POICA_P_I_OBJ_CALL
+#define iObjCallWithArgs POICA_P_I_OBJ_CALL_WITH_ARGS
+
+#define initIObj POICA_P_INIT_I_OBJ
 
 #endif
 
-#define POICA_P_I_METHOD(return_type, name, params)                            \
-    ((I_METHOD_KIND_STATIC)(return_type)(name)(params))
+#define POICA_P_I_OBJ_CALL(i_obj, method) (i_obj).vtable->method(&(i_obj))
 
-#define POICA_P_I_METHOD_SELF(return_type, name, params)                       \
-    ((I_METHOD_KIND_SELF)(return_type)(name)(params))
+#define POICA_P_I_OBJ_CALL_WITH_ARGS(i_obj, method, ...)                       \
+    (i_obj).vtable.method(&(i_obj), __VA_ARGS__)
 
-#define POICA_P_I_METHOD_MUT_SELF(return_type, name, params)                   \
-    ((I_METHOD_KIND_MUT_SELF)(return_type)(name)(params))
+#define POICA_P_INIT_I_OBJ(i_obj, new_self, new_vtable)                        \
+    (i_obj).self = (new_self);                                                 \
+    (i_obj).vtable = (new_vtable)
 
-#endif // POICA_INTERFACE_METHOD_H
+#endif // POICA_INTERFACE_I_OBJ_UTILS_H

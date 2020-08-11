@@ -23,20 +23,11 @@
  * SOFTWARE.
  */
 
-#ifndef POICA_INTERFACE_GEN_METHODS_PTRS_H
-#define POICA_INTERFACE_GEN_METHODS_PTRS_H
+#ifndef POICA_INTERFACE_GEN_METHOD_TABLES_H
+#define POICA_INTERFACE_GEN_METHOD_TABLES_H
 
-#include <boost/preprocessor.hpp>
+#include <poica/interface/gen/method_tables/mut_self.h>
+#include <poica/interface/gen/method_tables/self.h>
+#include <poica/interface/gen/method_tables/static.h>
 
-#define POICA_P_INTERFACE_GEN_METHODS_PTRS(methods)                            \
-    BOOST_PP_SEQ_FOR_EACH(POICA_P_INTERFACE_GEN_METHOD_PTR, _data, methods)
-
-#define POICA_P_INTERFACE_GEN_METHOD_PTR(_r, _data, method)                    \
-    POICA_P_INTERFACE_GEN_METHOD_PTR_AUX(BOOST_PP_SEQ_ELEM(0, method),         \
-                                         BOOST_PP_SEQ_ELEM(1, method),         \
-                                         BOOST_PP_SEQ_ELEM(2, method))
-
-#define POICA_P_INTERFACE_GEN_METHOD_PTR_AUX(return_type, name, params)        \
-    return_type(*name) params;
-
-#endif // POICA_INTERFACE_GEN_METHODS_PTRS_H
+#endif // POICA_INTERFACE_GEN_METHOD_TABLES_H
