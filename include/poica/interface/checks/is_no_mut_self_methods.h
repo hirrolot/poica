@@ -23,42 +23,29 @@
  * SOFTWARE.
  */
 
-#include <poica.h>
+#ifndef POICA_INTERFACE_GEN_CHECKS_IS_NO_MUT_SELF_METHODS_H
+#define POICA_INTERFACE_GEN_CHECKS_IS_NO_MUT_SELF_METHODS_H
 
-#include <stdio.h>
+#include <poica/private/overload_on_kind.h>
 
-interface(Animal, iMethodSelf(void, noise, ()));
+#include <boost/preprocessor.hpp>
 
-record(Dog);
-record(Cat);
+#define POICA_P_INTERFACE_IS_NO_MUT_SELF_METHODS(methods)                      \
+    BOOST_VMD_IS_EMPTY(BOOST_PP_SEQ_FOR_EACH(                                  \
+        POICA_P_INTERFACE_IS_NO_MUT_SELF_METHODS_VISIT_ONE, _data, methods))
 
-void dogNoise(const void *self) {
-    (void)(self);
-    puts("Woof!");
-}
+#define POICA_P_INTERFACE_IS_NO_MUT_SELF_METHODS_VISIT_ONE(_r, _data, method)  \
+    POICA_P_OVERLOAD_ON_KIND(                                                  \
+        POICA_P_INTERFACE_IS_NO_MUT_SELF_METHODS_VISIT_ONE_, method)
 
-void catNoise(const void *self) {
-    (void)(self);
-    puts("Meow!");
-}
+#define POICA_P_INTERFACE_IS_NO_MUT_SELF_METHODS_VISIT_ONE_I_METHOD_KIND_STATIC( \
+    _return_type, _name, _params)
 
-const ISelfMethods(Animal) ISelfMethods(Animal, Dog) = {dogNoise};
-const ISelfMethods(Animal) ISelfMethods(Animal, Cat) = {catNoise};
+#define POICA_P_INTERFACE_IS_NO_MUT_SELF_METHODS_VISIT_ONE_I_METHOD_KIND_SELF( \
+    _return_type, _name, _params)
 
-/*
- * Output:
- * Woof!
- * Meow!
- */
-int main(void) {
-    Dog dog = {unit};
-    Cat cat = {unit};
+#define POICA_P_INTERFACE_IS_NO_MUT_SELF_METHODS_VISIT_ONE_I_METHOD_KIND_MUT_SELF( \
+    _return_type, _name, _params)                                                  \
+    (_)
 
-    Animal animal;
-
-    initIObj(animal, &dog, &ISelfMethods(Animal, Dog));
-    iObjCall(animal, noise);
-
-    initIObj(animal, &cat, &ISelfMethods(Animal, Cat));
-    iObjCall(animal, noise);
-}
+#endif // POICA_INTERFACE_GEN_CHECKS_IS_NO_MUT_SELF_METHODS_H

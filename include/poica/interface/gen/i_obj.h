@@ -26,18 +26,21 @@
 #ifndef POICA_INTERFACE_GEN_I_OBJ_H
 #define POICA_INTERFACE_GEN_I_OBJ_H
 
+#include <poica/interface/gen/method_tables/mut_self.h>
+#include <poica/interface/gen/method_tables/self.h>
+
 #include <boost/preprocessor.hpp>
 
 #define POICA_P_GEN_I_OBJ(interface_name)                                      \
     typedef struct interface_name {                                            \
         const void *self;                                                      \
-        const POICA_P_VTABLE(interface_name) * vtable;                         \
+        const POICA_P_I_SELF_METHODS(interface_name) * vtable;                 \
     } interface_name
 
 #define POICA_P_GEN_MUT_I_OBJ(interface_name)                                  \
     typedef struct BOOST_PP_CAT(interface_name, Mut) {                         \
         void *self;                                                            \
-        const POICA_P_VTABLE(interface_name) * vtable;                         \
+        const POICA_P_I_MUT_SELF_METHODS(interface_name) * vtable;             \
     } BOOST_PP_CAT(interface_name, Mut)
 
 #endif // POICA_INTERFACE_GEN_I_OBJ_H

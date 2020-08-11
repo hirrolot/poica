@@ -23,42 +23,11 @@
  * SOFTWARE.
  */
 
-#include <poica.h>
+#ifndef POICA_INTERFACE_GEN_METHOD_TABLES_H
+#define POICA_INTERFACE_GEN_METHOD_TABLES_H
 
-#include <stdio.h>
+#include <poica/interface/gen/method_tables/mut_self.h>
+#include <poica/interface/gen/method_tables/self.h>
+#include <poica/interface/gen/method_tables/static.h>
 
-interface(Animal, iMethodSelf(void, noise, ()));
-
-record(Dog);
-record(Cat);
-
-void dogNoise(const void *self) {
-    (void)(self);
-    puts("Woof!");
-}
-
-void catNoise(const void *self) {
-    (void)(self);
-    puts("Meow!");
-}
-
-const ISelfMethods(Animal) ISelfMethods(Animal, Dog) = {dogNoise};
-const ISelfMethods(Animal) ISelfMethods(Animal, Cat) = {catNoise};
-
-/*
- * Output:
- * Woof!
- * Meow!
- */
-int main(void) {
-    Dog dog = {unit};
-    Cat cat = {unit};
-
-    Animal animal;
-
-    initIObj(animal, &dog, &ISelfMethods(Animal, Dog));
-    iObjCall(animal, noise);
-
-    initIObj(animal, &cat, &ISelfMethods(Animal, Cat));
-    iObjCall(animal, noise);
-}
+#endif // POICA_INTERFACE_GEN_METHOD_TABLES_H
