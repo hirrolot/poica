@@ -28,6 +28,7 @@
 
 #include <poica/builtin.h>
 #include <poica/choice.h>
+#include <poica/interface.h>
 #include <poica/obj.h>
 #include <poica/p.h>
 #include <poica/record.h>

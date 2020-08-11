@@ -23,24 +23,23 @@
  * SOFTWARE.
  */
 
-#ifndef POICA_CHOICE_INTROSPECTION_OVERLOAD_ON_VARIANT_H
-#define POICA_CHOICE_INTROSPECTION_OVERLOAD_ON_VARIANT_H
-
-#include <poica/choice/introspection.h>
-#include <poica/private/overload_on_kind.h>
+#ifndef POICA_PRIVATE_OVERLOAD_ON_KIND_H
+#define POICA_PRIVATE_OVERLOAD_ON_KIND_H
 
 #include <boost/preprocessor.hpp>
 
-#define POICA_OVERLOAD_ON_VARIANT(macro, data, variant)                        \
-    POICA_P_OVERLOAD_ON_KIND(                                                  \
-        macro, POICA_P_OVERLOAD_ON_VARIANT_TRANSFORM_SEQ(data, variant))
+/*
+ * Concatanates `macro` with the first element of `seq` (Boost/PP sequence) and
+ * calls `macro` with the rest of comma-separated elements of `seq`.
+ *
+ * `seq` shall consist of >=2 elements, and all the possible combinations of
+ * `macro` + the first element of `seq` shall be defined.
+ */
+#define POICA_P_OVERLOAD_ON_KIND(macro, seq)                                   \
+    POICA_P_OVERLOAD_ON_KIND_AUX(                                              \
+        BOOST_PP_CAT(macro, BOOST_PP_SEQ_HEAD(seq)),                           \
+        BOOST_PP_SEQ_ENUM(BOOST_PP_SEQ_POP_FRONT(seq)))
 
-#define POICA_P_OVERLOAD_ON_VARIANT_TRANSFORM_SEQ(data, variant)               \
-    BOOST_PP_CAT(POICA_P_CHOICE_RENAME_, BOOST_PP_SEQ_HEAD(variant))           \
-    (data) BOOST_PP_SEQ_TAIL(variant)
+#define POICA_P_OVERLOAD_ON_KIND_AUX(macro, ...) macro(__VA_ARGS__)
 
-#define POICA_P_CHOICE_RENAME_POICA_VARIANT_KIND_EMPTY  VARIANT_KIND_EMPTY
-#define POICA_P_CHOICE_RENAME_POICA_VARIANT_KIND_SINGLE VARIANT_KIND_SINGLE
-#define POICA_P_CHOICE_RENAME_POICA_VARIANT_KIND_MANY   VARIANT_KIND_MANY
-
-#endif // POICA_CHOICE_INTROSPECTION_OVERLOAD_ON_VARIANT_H
+#endif // POICA_PRIVATE_OVERLOAD_ON_KIND_H
