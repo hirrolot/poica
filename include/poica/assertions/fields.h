@@ -23,31 +23,36 @@
  * SOFTWARE.
  */
 
-#ifndef POICA_CHOICE_GEN_REDIRECTS_TO_INNER_TYPE_H
-#define POICA_CHOICE_GEN_REDIRECTS_TO_INNER_TYPE_H
+#ifndef POICA_ASSERTIONS_FIELDS_H
+#define POICA_ASSERTIONS_FIELDS_H
 
-#include <poica/private/prefix.h>
-
-#include <poica/choice/gen/records_for_many.h>
-#include <poica/choice/gen/redirects/to_inner_type/variant_kind_empty.h>
-#include <poica/choice/gen/redirects/to_inner_type/variant_kind_many.h>
-#include <poica/choice/gen/redirects/to_inner_type/variant_kind_single.h>
-#include <poica/choice/introspection.h>
+#include <poica/private/defer.h>
 
 #include <boost/preprocessor.hpp>
+#include <boost/vmd/vmd.hpp>
 
-#define POICA_P_CHOICE_GEN_REDIRECTS_VARIANT_TO_INNER_TYPE(variants)           \
+#ifdef POICA_ENABLE_ASSERTIONS
+
+#define POICA_P_OPT_ASSERT_ARE_FIELDS(fields) POICA_ASSERT_ARE_FIELDS(fields)
+#define POICA_P_OPT_ASSERT_IS_FIELD(field)    POICA_ASSERT_IS_FIELD(field)
+
+#else
+
+#define POICA_P_OPT_ASSERT_ARE_FIELDS(_fields) BOOST_PP_EMPTY()
+#define POICA_P_OPT_ASSERT_IS_FIELD(_field)    BOOST_PP_EMPTY()
+
+#endif
+
+#define POICA_ASSERT_ARE_FIELDS(fields)                                        \
+    BOOST_VMD_ASSERT_IS_SEQ(fields)                                            \
     BOOST_PP_SEQ_FOR_EACH(                                                     \
-        POICA_P_CHOICE_GEN_REDIRECTS_VARIANT_TO_INNER_TYPE_VISIT,              \
-        _data,                                                                 \
-        variants)
+        POICA_P_ASSERT_IS_FIELDS_VISIT, BOOST_PP_EMPTY(), fields)
 
-#define POICA_P_CHOICE_GEN_REDIRECTS_VARIANT_TO_INNER_TYPE_VISIT(              \
-    _r, _data, variant)                                                        \
-    POICA_OVERLOAD_ON_VARIANT(                                                 \
-        POICA_P_CHOICE_GEN_REDIRECT_VARIANT_TO_INNER_TYPE_, _data, (variant))
+#define POICA_P_ASSERT_IS_FIELDS_VISIT(_r, _data, field)                       \
+    POICA_ASSERT_IS_FIELD((field))
 
-#define POICA_P_CHOICE_REDIRECT_VARIANT_TO_INNER_TYPE(variant_name)            \
-    POICA_P_PREFIX(BOOST_PP_CAT(variant_name, _RedirectToInnerType))
+#define POICA_ASSERT_IS_FIELD(field)                                           \
+    BOOST_VMD_ASSERT_IS_SEQ(POICA_P_EXPAND field)                              \
+    BOOST_VMD_ASSERT(BOOST_PP_EQUAL(BOOST_PP_SEQ_SIZE(POICA_P_EXPAND field), 2))
 
-#endif // POICA_CHOICE_GEN_REDIRECTS_TO_INNER_TYPE_H
+#endif // POICA_ASSERTIONS_FIELDS_H
