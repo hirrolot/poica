@@ -26,8 +26,9 @@
 #ifndef POICA_PRIVATE_OVERLOAD_ON_KIND_H
 #define POICA_PRIVATE_OVERLOAD_ON_KIND_H
 
+#include <poica/assertions/overload_on_kind.h>
+
 #include <boost/preprocessor.hpp>
-#include <boost/vmd/vmd.hpp>
 
 /*
  * Concatanates `macro` with the first element of `seq` (Boost/PP sequence) and
@@ -37,8 +38,7 @@
  * `macro` + the first element of `seq` shall be defined.
  */
 #define POICA_P_OVERLOAD_ON_KIND(macro, seq)                                   \
-    BOOST_VMD_ASSERT_IS_SEQ(seq)                                               \
-    BOOST_VMD_ASSERT(BOOST_PP_GREATER_EQUAL(BOOST_PP_SEQ_SIZE(seq), 2))        \
+    POICA_P_OPT_ASSERT_IS_OVERLOAD_ON_KIND_DATA(seq)                           \
                                                                                \
     POICA_P_OVERLOAD_ON_KIND_AUX(                                              \
         BOOST_PP_CAT(macro, BOOST_PP_SEQ_HEAD(seq)),                           \
