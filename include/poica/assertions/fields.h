@@ -23,22 +23,36 @@
  * SOFTWARE.
  */
 
-#ifndef POICA_RECORD_INTROSPECTION_H
-#define POICA_RECORD_INTROSPECTION_H
+#ifndef POICA_ASSERTIONS_FIELDS_H
+#define POICA_ASSERTIONS_FIELDS_H
 
-#include <poica/assertions/fields.h>
-
-#include <poica/record/introspection/field_names.h>
-#include <poica/record/introspection/field_types.h>
-#include <poica/record/introspection/fields_as_params.h>
+#include <poica/private/defer.h>
 
 #include <boost/preprocessor.hpp>
+#include <boost/vmd/vmd.hpp>
 
-// This macro is variadic because, due to type introspection, it must work
-// correctly if actual record data is transferred through a macro:
-// POICA_RECORD_INTROSPECT(MY_RECORD);
-#define POICA_RECORD_INTROSPECT(...) POICA_P_RECORD_INTROSPECT_AUX(__VA_ARGS__)
-#define POICA_P_RECORD_INTROSPECT_AUX(name, fields)                            \
-    POICA_P_OPT_ASSERT_ARE_FIELDS(fields) fields
+#ifdef POICA_ENABLE_ASSERTIONS
 
-#endif // POICA_RECORD_INTROSPECTION_H
+#define POICA_P_OPT_ASSERT_ARE_FIELDS(fields) POICA_ASSERT_ARE_FIELDS(fields)
+#define POICA_P_OPT_ASSERT_IS_FIELD(field)    POICA_ASSERT_IS_FIELD(field)
+
+#else
+
+#define POICA_P_OPT_ASSERT_ARE_FIELDS(_fields) BOOST_PP_EMPTY()
+#define POICA_P_OPT_ASSERT_IS_FIELD(_field)    BOOST_PP_EMPTY()
+
+#endif
+
+#define POICA_ASSERT_ARE_FIELDS(fields)                                        \
+    BOOST_VMD_ASSERT_IS_SEQ(fields)                                            \
+    BOOST_PP_SEQ_FOR_EACH(                                                     \
+        POICA_P_ASSERT_IS_FIELDS_VISIT, BOOST_PP_EMPTY(), fields)
+
+#define POICA_P_ASSERT_IS_FIELDS_VISIT(_r, _data, field)                       \
+    POICA_ASSERT_IS_FIELD((field))
+
+#define POICA_ASSERT_IS_FIELD(field)                                           \
+    BOOST_VMD_ASSERT_IS_SEQ(POICA_P_EXPAND field)                              \
+    BOOST_VMD_ASSERT(BOOST_PP_EQUAL(BOOST_PP_SEQ_SIZE(POICA_P_EXPAND field), 2))
+
+#endif // POICA_ASSERTIONS_FIELDS_H
