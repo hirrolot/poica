@@ -23,8 +23,8 @@
  * SOFTWARE.
  */
 
-#ifndef POICA_STDLIB_RES_H
-#define POICA_STDLIB_RES_H
+#ifndef POICA_STD_RES_H
+#define POICA_STD_RES_H
 
 #include <poica/lang/force_semicolon.h>
 #include <poica/lang/p.h>
@@ -60,4 +60,4 @@
                                                                                \
     POICA_FORCE_SEMICOLON
 
-#endif // POICA_STDLIB_RES_H
+#endif // POICA_STD_RES_H
