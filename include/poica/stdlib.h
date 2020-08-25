@@ -27,6 +27,7 @@
 #define POICA_STDLIB_H
 
 #include <poica/stdlib/either.h>
+#include <poica/stdlib/homo_pair.h>
 #include <poica/stdlib/maybe.h>
 #include <poica/stdlib/pair.h>
 #include <poica/stdlib/res.h>
