@@ -1,4 +1,4 @@
-> WARNING: this is just my experiment I work on in my free time. Do **NOT** rely on it.
+> This repository is abandoned due to the overwhelming complexity of metaprogramming with [Boost/Preprocessor]. See [Metalang99](https://github.com/hirrolot/metalang99) and [Datatype99](https://github.com/hirrolot/datatype99) -- the successors.
 
 # poica
 [![CI](https://github.com/hirrolot/poica/workflows/C/C++%20CI/badge.svg)](https://github.com/hirrolot/poica/actions?query=workflow%3A%22C%2FC%2B%2B+CI%22)
