@@ -7,24 +7,6 @@
 
 The goal of this project is to implement the features of modern programming languages in plain C11 via its macro system, thereby improving static reasoning and achieving a better way to organise our code.
 
-## Table of contents
- - [Installation](#installation)
- - [Algebraic data types](#algebraic-data-types)
-   - [Sum types](#sum-types)
-   - [Product types](#product-types)
- - [Type introspection](#type-introspection)
-   - [Sum types](#sum-types-1)
-   - [Product types](#product-types-1)
- - [Safe, consistent error handling](#safe-consistent-error-handling)
- - [Built-in ADTs](#built-in-adts)
- - [OOP](#oop)
-   - [Interfaces](#interfaces)
-   - [Dynamic dispatch](#dynamic-dispatch)
- - [Type-generic programming](#type-generic-programming)
-   - [Generic types](#generic-types)
- - [Options](#options)
- - [FAQ](#faq)
-
 ## Installation
 
 The recommended way is using [Git submodules]. Enter your project and execute:
